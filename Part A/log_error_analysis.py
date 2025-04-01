@@ -1,23 +1,92 @@
 import os
+from collections import Counter
+import constants
 
-# split_log_file('logs.txt', 'logs_split', lines_per_file=100000)
-def split_log_file(input_file, output_dir, lines_per_file):
-    """Split a log file into multiple files with less number of lines per file."""
+def split_log_file(INPUT_FILE, output_dir, LINES_PER_FILE):
+    """Splits a large log file into multiple smaller files, each containing a fixed number of lines."""
 
     # create output directory
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
     # split log file
-    with open(input_file, 'r', encoding='utf-8') as infile:
+    with open(INPUT_FILE, 'r', encoding='utf-8') as infile:
         file_count = 0
         while True:
-            output_file = os.path.join(output_dir, f'log_part_{file_count}.txt')
-            with open(output_file, 'w', encoding='utf-8') as outfile:
-                for _ in range(lines_per_file):
-                    line = infile.readline()
-                    if not line:
-                        return
-                    outfile.write(line)
-            file_count += 1
+            OUTPUT_FILE = os.path.join(output_dir, f'log_part_{file_count}.txt')
+            
+            # Read up to LINES_PER_FILE lines
+            lines = [infile.readline() for _ in range(LINES_PER_FILE)]
+            
+            # If there are no more lines to read, stop
+            if not any(lines):  # checks if all lines are empty, i.e., end of file
+                return
+            
+            with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
+                for line in lines:
+                    if line:  # write non-empty lines
+                        outfile.write(line)
+            
+            file_count += 1  # increment the counter for the next file
 
+def count_errors_in_file(file_path, output_dir, part_index):
+    """Counts the occurrences of each error code in a single log file and saves the count in a separate file."""
+
+    error_counts = Counter()
+    
+    with open(file_path, 'r', encoding='utf-8') as infile:
+        for line in infile:
+            error_code = line.strip()
+            error_counts[error_code] += 1
+    
+    # save the results in a permanent file
+    OUTPUT_FILE = os.path.join(output_dir, f'ERROR_COUNTS_PART_{part_index}.txt')
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
+        for error_code, count in error_counts.items():
+            outfile.write(f"{error_code};{count}\n")
+
+def process_log_parts(SPLIT_DIR, TEMP_COUNTS_DIR):
+    """Iterates through all split log files and counts the error codes in each one."""
+
+    part_index = 0
+    for filename in os.listdir(SPLIT_DIR):
+        if filename.startswith("log_part_") and filename.endswith(".txt"):
+            file_path = os.path.join(SPLIT_DIR, filename)
+            count_errors_in_file(file_path, TEMP_COUNTS_DIR, part_index)
+            part_index += 1
+
+def merge_error_counts(input_dir, OUTPUT_FILE):
+    """Merges the error count results from all temporary files into a single output file, sorted by frequency."""
+
+    total_error_counts = Counter()
+    
+    for filename in os.listdir(input_dir):
+        if filename.startswith("ERROR_COUNTS_PART_") and filename.endswith(".txt"):
+            file_path = os.path.join(input_dir, filename)
+            with open(file_path, 'r', encoding='utf-8') as infile:
+                for line in infile:
+                    error_code, count = line.strip().split(";")
+                    total_error_counts[error_code] += int(count)
+    
+    # save the results in the order of the most common errors
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
+        for error_code, count in total_error_counts.most_common():
+            outfile.write(f"{error_code}: {count}\n")
+
+def main():
+    
+    # create output directories
+    os.makedirs(constants.SPLIT_DIR, exist_ok=True)
+    os.makedirs(constants.TEMP_COUNTS_DIR, exist_ok=True)
+    
+    # split the log big file
+    split_log_file(constants.INPUT_FILE, constants.SPLIT_DIR, constants.LINES_PER_FILE)
+
+    # count the errors in each file
+    process_log_parts(constants.SPLIT_DIR, constants.TEMP_COUNTS_DIR)
+
+    # merge the error counts from multiple files to a single file
+    merge_error_counts(constants.TEMP_COUNTS_DIR, constants.OUTPUT_FILE)
+
+if __name__ == "__main__":
+    main()
