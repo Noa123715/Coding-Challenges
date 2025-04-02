@@ -73,8 +73,24 @@ def merge_error_counts(input_dir, OUTPUT_FILE):
         for error_code, count in total_error_counts.most_common():
             outfile.write(f"{error_code}: {count}\n")
 
-def main():
+def get_top_n_errors(output_file, N):
+    """Returns the top N most common error codes from the merged error count file."""
     
+    top_errors = []
+    
+    with open(output_file, 'r', encoding='utf-8') as infile:
+        for line in infile:
+            if len(top_errors) >= N:
+                break
+            top_errors.append(line.strip())
+    
+    return top_errors
+
+def main():
+    # get user input
+    input_file = input("Enter the log file name: ").strip()
+    N = int(input("Enter the number of top error codes to display: ").strip())
+
     # create output directories
     os.makedirs(constants.SPLIT_DIR, exist_ok=True)
     os.makedirs(constants.TEMP_COUNTS_DIR, exist_ok=True)
@@ -87,6 +103,14 @@ def main():
 
     # merge the error counts from multiple files to a single file
     merge_error_counts(constants.TEMP_COUNTS_DIR, constants.OUTPUT_FILE)
+
+    # get the top N error codes
+    top_errors = get_top_n_errors(constants.OUTPUT_FILE, N)
+
+    # print the top N error codes to the user
+    print("\nTop", N, "error codes:")
+    for error in top_errors:
+        print(error)
 
 if __name__ == "__main__":
     main()
