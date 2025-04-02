@@ -61,3 +61,46 @@ The overall complexity of the `main` function is the sum of the complexities of 
 
 - **Total Space Complexity**:  
   The final overall space complexity is: **O(N)**, where `N` is the number of most common error codes stored in the output list.
+
+## Section B, Question 3
+
+**Handling Streaming Data and Updating Averages**
+
+When working with streaming data, it’s important to design a system that can process the data as it arrives and update statistics such as averages without storing the entire dataset in memory. Here’s how you can approach this problem:
+
+1. **Data Ingestion**
+First, you need to set up a system that can handle incoming data streams. This can be done using various technologies that allow for continuous and real-time data ingestion, such as direct connections to data streams or other protocols suitable for your needs.
+
+2. **Real-Time Processing**
+Once the data is flowing, you need a processing system that can handle it efficiently. There are frameworks designed for real-time data processing that can process data in small batches or handle individual data points as they arrive.
+
+3. **Updating Averages**
+When updating averages, there are several strategies you can use depending on the size of the data and how quickly it needs to be processed:
+
+- **Sliding Window Average**: In this approach, you maintain a fixed-size window of the most recent data points. As new data comes in, it is added to the window, and the oldest data point is removed. This way, the average always reflects the most recent data within the window.
+  
+- **Exponential Moving Average (EMA)**: This technique gives more weight to recent data by applying an exponentially decaying weight to older data points. This is especially useful when recent data is considered more important for future predictions.
+
+- **Efficient Data Structures**: To manage the data efficiently in real-time, you can use data structures that allow fast addition and removal of data points. This ensures that the average can be updated quickly without introducing delays.
+
+4. **Implementation Considerations**
+
+- **Memory Management**: Since you are working with streaming data, it's important not to store large amounts of data in memory. Techniques like sliding windows and EMA allow you to store only the necessary data for calculating the averages without needing to keep the entire dataset.
+  
+- **Latency**: The system should be designed to process the data and update the averages with minimal latency, ensuring that the data is always as up-to-date as possible.
+
+5. **Example Setup**
+A simple way to implement streaming data processing is by using frameworks that are designed for this purpose, allowing you to read data from streams in real-time and process it as it arrives. By setting up a data processing pipeline, you can compute averages as the data flows in and update the statistics in real time.
+
+## Section B, Question 4
+
+***Why Use Parquet Instead of CSV?***
+
+Parquet is a highly efficient, columnar storage format that outperforms CSV in data handling. Here’s why:
+
+- 🚀 **Faster Processing** – Reads only required columns, reducing load times.
+- 📉 **Smaller File Size** – Built-in compression minimizes storage needs.
+- 🔥 **Optimized for Big Data** – Works seamlessly with cloud storage & analytics frameworks.
+- 🛡️ **Preserves Data Types** – Unlike CSV, it retains correct data types, avoiding conversion issues.
+
+🔹 _Parquet is the preferred choice for scalable, high-performance data processing._
