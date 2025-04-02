@@ -1,6 +1,17 @@
 import constants
-import pandas as pd
 import os
+import pandas as pd
+import tempfile
+
+def read_file(file_path):
+    """Reads the input file, supporting both CSV and Parquet formats."""
+
+    if file_path.endswith('.csv'):
+        return pd.read_csv(file_path)
+    elif file_path.endswith('.parquet'):
+        return pd.read_parquet(file_path)
+    else:
+        raise ValueError("Unsupported file format. Please use CSV or Parquet.")
 
 def validate_file(file):
     """Checks if the file is correct and ensures dates are consecutive."""
@@ -12,11 +23,7 @@ def validate_file(file):
     # Check for required columns
     columns_names = {'timestamp', 'value'}
     if not columns_names.issubset(file.columns):
-        return "Error: Missing required columns in the CSV file."
-    
-    # Assuming the file is invalid: contains duplicates
-    # if file.duplicated(subset=['timestamp', 'value']).any():
-    #     return "Error: Duplicate (timestamp, value) pairs found in the CSV file."
+        return "Error: Missing required columns in the file."
     
     # Ensure timestamp is in datetime format
     file['timestamp'] = pd.to_datetime(file['timestamp'], errors='coerce', dayfirst=True)
@@ -54,8 +61,8 @@ def validate_row(row):
 def calculate_hourly_average(file_path):
     """Calculates the hourly average of valid rows."""
     try:
-        # Read the CSV file
-        file = pd.read_csv(file_path)
+        # Read the input file
+        file = read_file(file_path)
 
         # Apply validation function without stopping execution
         file['is_valid'] = file.apply(validate_row, axis=1)
@@ -77,11 +84,11 @@ def calculate_hourly_average(file_path):
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-def split_file_by_day(file_path, split_folder):
-    """Splits the input CSV file into smaller files based on date."""
+def split_file_by_day(file_path, split_folder, type='csv'):
+    """Splits the input file into smaller files based on date."""
     try:
-        # Read the CSV file
-        file = pd.read_csv(file_path)
+        # Read the input file
+        file = read_file(file_path)
         
         # Ensure timestamp is in datetime format
         file['timestamp'] = pd.to_datetime(file['timestamp'], errors='coerce', dayfirst=True)
@@ -96,8 +103,11 @@ def split_file_by_day(file_path, split_folder):
         # Split the file by date and save each split as a separate file
         for date, group in file.groupby('date'):
             group.drop(columns=['date'], inplace=True)  # Remove the date column for the output file
-            group.to_csv(f"{split_folder}/time_series_{date.date()}.csv", index=False)
-            
+            if type == 'csv':
+                group.to_csv(f"{split_folder}/time_series_{date.date()}.csv", index=False)
+            if type == 'parquet':
+                group.to_parquet(f"{split_folder}/time_series_{date.date()}.parquet", index=False)
+        
         return "File successfully split by date."
     except Exception as e:
         return f"An error occurred: {str(e)}"
@@ -105,14 +115,14 @@ def split_file_by_day(file_path, split_folder):
 def process_and_combine_avg(split_folder, output_file):
     """Processes each split file, calculates hourly averages, and combines the results."""
     try:
-        all_avg = [] # List to store all the hourly averages
+        all_avg = []  # List to store all the hourly averages
         
         # Get a list of all split files
         split_files = [idx for idx in os.listdir(split_folder) if idx.endswith('.csv')]
         
         # Process each split file
         for s_file in split_files:
-            sf_path = os.path.join(split_folder, s_file) # split file path
+            sf_path = os.path.join(split_folder, s_file)  # split file path
             # Calculate hourly averages for the current split file
             hourly_avg = calculate_hourly_average(sf_path)  # Using your existing function
             
@@ -133,20 +143,35 @@ def process_and_combine_avg(split_folder, output_file):
         return f"An error occurred: {str(e)}"
 
 def main():
+    # split the CSV file
+    split_status_csv = split_file_by_day(constants.INPUT_CSV_FILE, constants.SPLIT_FOLDER, type='csv')
+    print(split_status_csv)
+    
+    # split the Parquet file
+    split_status_parquet = split_file_by_day(constants.INPUT_PARQUET_FILE, constants.SPLIT_FOLDER, type='parquet')
+    print(split_status_parquet)
+    
+    # calculate the hourly average for each split file
+    status_csv = process_and_combine_avg(constants.SPLIT_FOLDER, constants.OUTPUT_CSV_FILE)
+    print(status_csv)
+    
+    # Combine status for Parquet file
+    status_parquet = process_and_combine_avg(constants.SPLIT_FOLDER, constants.OUTPUT_PARQUET_FILE)
+    print(status_parquet)
+    
+    # Combine both CSV and Parquet files
+    csv_parquet = pd.concat([pd.read_csv(constants.OUTPUT_CSV_FILE), pd.read_csv(constants.OUTPUT_PARQUET_FILE)], ignore_index=True)
+    
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as temp_file:
+        temp_file_path = temp_file.name
+        csv_parquet.to_csv(temp_file_path, index=False)
 
-    # Validate the input file
-    is_valid = validate_file(pd.read_csv(constants.INPUT_FILE))
-    print(is_valid)
-    if is_valid == "Valid":
-        # Split the file by date
-        split_status = split_file_by_day(constants.INPUT_FILE, constants.SPLIT_FOLDER)
-        print(split_status)
-        
-        # Process the split files and combine the hourly averages
-        combine_status = process_and_combine_avg(constants.SPLIT_FOLDER, constants.OUTPUT_FILE)
-        print(combine_status)
-    else:
-        print("The file is invalid. Please provide a valid CSV file.")
+    # calculate the final average
+    final_avg = calculate_hourly_average(temp_file_path)
+    
+    # save the final result
+    final_avg.to_csv(constants.FINAL_OUTPUT_FILE, index=False)
+    print(f"Hourly averages have been saved to {constants.FINAL_OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()

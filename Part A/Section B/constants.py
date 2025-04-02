@@ -1,3 +1,6 @@
-INPUT_FILE = 'time_series.csv'
+INPUT_CSV_FILE = 'time_series.csv'
+INPUT_PARQUET_FILE = 'time_series (4).parquet'
 SPLIT_FOLDER = 'series_split'
-OUTPUT_FILE = 'hourly_averages.csv'
+OUTPUT_CSV_FILE = 'hourly_averages.csv'
+OUTPUT_PARQUET_FILE = 'hourly_averages.parquet'
+FINAL_OUTPUT_FILE = 'final_averages.csv'
