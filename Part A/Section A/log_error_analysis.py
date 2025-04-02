@@ -2,18 +2,18 @@ import os
 from collections import Counter
 import constants
 
-def split_log_file(INPUT_FILE, output_dir, LINES_PER_FILE):
+def split_log_file(INPUT_FILE, output_folder, LINES_PER_FILE):
     """Splits a large log file into multiple smaller files, each containing a fixed number of lines."""
 
     # create output directory
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     
     # split log file
     with open(INPUT_FILE, 'r', encoding='utf-8') as infile:
         file_count = 0
         while True:
-            OUTPUT_FILE = os.path.join(output_dir, f'log_part_{file_count}.txt')
+            OUTPUT_FILE = os.path.join(output_folder, f'log_part_{file_count}.txt')
             
             # Read up to LINES_PER_FILE lines
             lines = [infile.readline() for _ in range(LINES_PER_FILE)]
@@ -29,7 +29,7 @@ def split_log_file(INPUT_FILE, output_dir, LINES_PER_FILE):
             
             file_count += 1  # increment the counter for the next file
 
-def count_errors_in_file(file_path, output_dir, part_index):
+def count_errors_in_file(file_path, output_folder, part_index):
     """Counts the occurrences of each error code in a single log file and saves the count in a separate file."""
 
     error_counts = Counter()
@@ -40,29 +40,29 @@ def count_errors_in_file(file_path, output_dir, part_index):
             error_counts[error_code] += 1
     
     # save the results in a permanent file
-    OUTPUT_FILE = os.path.join(output_dir, f'ERROR_COUNTS_PART_{part_index}.txt')
+    OUTPUT_FILE = os.path.join(output_folder, f'ERROR_COUNTS_PART_{part_index}.txt')
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
         for error_code, count in error_counts.items():
             outfile.write(f"{error_code};{count}\n")
 
-def process_log_parts(SPLIT_DIR, TEMP_COUNTS_DIR):
+def process_log_parts(SPLIT_FOLDER, TEMP_COUNTS_FOLDER):
     """Iterates through all split log files and counts the error codes in each one."""
 
     part_index = 0
-    for filename in os.listdir(SPLIT_DIR):
+    for filename in os.listdir(SPLIT_FOLDER):
         if filename.startswith("log_part_") and filename.endswith(".txt"):
-            file_path = os.path.join(SPLIT_DIR, filename)
-            count_errors_in_file(file_path, TEMP_COUNTS_DIR, part_index)
+            file_path = os.path.join(SPLIT_FOLDER, filename)
+            count_errors_in_file(file_path, TEMP_COUNTS_FOLDER, part_index)
             part_index += 1
 
-def merge_error_counts(input_dir, OUTPUT_FILE):
+def merge_error_counts(input_folder, OUTPUT_FILE):
     """Merges the error count results from all temporary files into a single output file, sorted by frequency."""
 
     total_error_counts = Counter()
     
-    for filename in os.listdir(input_dir):
+    for filename in os.listdir(input_folder):
         if filename.startswith("ERROR_COUNTS_PART_") and filename.endswith(".txt"):
-            file_path = os.path.join(input_dir, filename)
+            file_path = os.path.join(input_folder, filename)
             with open(file_path, 'r', encoding='utf-8') as infile:
                 for line in infile:
                     error_code, count = line.strip().split(";")
@@ -92,17 +92,17 @@ def main():
     N = int(input("Enter the number of top error codes to display: ").strip())
 
     # create output directories
-    os.makedirs(constants.SPLIT_DIR, exist_ok=True)
-    os.makedirs(constants.TEMP_COUNTS_DIR, exist_ok=True)
+    os.makedirs(constants.SPLIT_FOLDER, exist_ok=True)
+    os.makedirs(constants.TEMP_COUNTS_FOLDER, exist_ok=True)
     
     # split the log big file
-    split_log_file(constants.INPUT_FILE, constants.SPLIT_DIR, constants.LINES_PER_FILE)
+    split_log_file(constants.INPUT_FILE, constants.SPLIT_FOLDER, constants.LINES_PER_FILE)
 
     # count the errors in each file
-    process_log_parts(constants.SPLIT_DIR, constants.TEMP_COUNTS_DIR)
+    process_log_parts(constants.SPLIT_FOLDER, constants.TEMP_COUNTS_FOLDER)
 
     # merge the error counts from multiple files to a single file
-    merge_error_counts(constants.TEMP_COUNTS_DIR, constants.OUTPUT_FILE)
+    merge_error_counts(constants.TEMP_COUNTS_FOLDER, constants.OUTPUT_FILE)
 
     # get the top N error codes
     top_errors = get_top_n_errors(constants.OUTPUT_FILE, N)
