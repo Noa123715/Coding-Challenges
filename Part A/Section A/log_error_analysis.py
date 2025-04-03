@@ -1,33 +1,38 @@
 import os
 from collections import Counter
+import shutil
 import constants
 
-def split_log_file(INPUT_FILE, output_folder, LINES_PER_FILE):
+def split_log_file(input_file, output_folder, nums_lines):
     """Splits a large log file into multiple smaller files, each containing a fixed number of lines."""
 
     # create output directory
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
-    # split log file
-    with open(INPUT_FILE, 'r', encoding='utf-8') as infile:
-        file_count = 0
-        while True:
-            OUTPUT_FILE = os.path.join(output_folder, f'log_part_{file_count}.txt')
-            
-            # Read up to LINES_PER_FILE lines
-            lines = [infile.readline() for _ in range(LINES_PER_FILE)]
-            
-            # If there are no more lines to read, stop
-            if not any(lines):  # checks if all lines are empty, i.e., end of file
-                return
-            
-            with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
-                for line in lines:
-                    if line:  # write non-empty lines
-                        outfile.write(line)
-            
-            file_count += 1  # increment the counter for the next file
+    try:
+        # split log file
+        with open(input_file, 'r', encoding='utf-8') as infile:
+            file_count = 0
+            while True:
+                out_file = os.path.join(output_folder, f'log_part_{file_count}.txt')
+                
+                # Read up to LINES_PER_FILE lines
+                lines = [infile.readline() for _ in range(nums_lines)]
+                
+                # If there are no more lines to read, stop
+                if not any(lines):  # checks if all lines are empty, i.e., end of file
+                    return
+                
+                with open(out_file, 'w', encoding='utf-8') as outfile:
+                    for line in lines:
+                        if line:  # write non-empty lines
+                            outfile.write(line)
+                
+                file_count += 1  # increment the counter for the next file
+
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
 def count_errors_in_file(file_path, output_folder, part_index):
     """Counts the occurrences of each error code in a single log file and saves the count in a separate file."""
@@ -55,7 +60,7 @@ def process_log_parts(SPLIT_FOLDER, TEMP_COUNTS_FOLDER):
             count_errors_in_file(file_path, TEMP_COUNTS_FOLDER, part_index)
             part_index += 1
 
-def merge_error_counts(input_folder, OUTPUT_FILE):
+def merge_error_counts(input_folder, out_file):
     """Merges the error count results from all temporary files into a single output file, sorted by frequency."""
 
     total_error_counts = Counter()
@@ -69,7 +74,7 @@ def merge_error_counts(input_folder, OUTPUT_FILE):
                     total_error_counts[error_code] += int(count)
     
     # save the results in the order of the most common errors
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as outfile:
+    with open(out_file, 'w', encoding='utf-8') as outfile:
         for error_code, count in total_error_counts.most_common():
             outfile.write(f"{error_code}: {count}\n")
 
@@ -96,7 +101,7 @@ def main():
     os.makedirs(constants.TEMP_COUNTS_FOLDER, exist_ok=True)
     
     # split the log big file
-    split_log_file(constants.INPUT_FILE, constants.SPLIT_FOLDER, constants.LINES_PER_FILE)
+    split_log_file(input_file, constants.SPLIT_FOLDER, constants.LINES_PER_FILE)
 
     # count the errors in each file
     process_log_parts(constants.SPLIT_FOLDER, constants.TEMP_COUNTS_FOLDER)
@@ -111,6 +116,11 @@ def main():
     print("\nTop", N, "error codes:")
     for error in top_errors:
         print(error)
+    
+    # remove the tmp folder
+    if os.path.exists(constants.TEMP_COUNTS_FOLDER):
+        shutil.rmtree(constants.TEMP_COUNTS_FOLDER)
+        print(f"The {constants.TEMP_COUNTS_FOLDER} folder has been removed.")
 
 if __name__ == "__main__":
     main()
