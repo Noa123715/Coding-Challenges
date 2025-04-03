@@ -94,13 +94,48 @@ A simple way to implement streaming data processing is by using frameworks that 
 
 ## Section B, Question 4
 
-***Why Use Parquet Instead of CSV?***
+**Why Use Parquet Instead of CSV?**
 
 Parquet is a highly efficient, columnar storage format that outperforms CSV in data handling. Here’s why:
 
-- 🚀 **Faster Processing** – Reads only required columns, reducing load times.
-- 📉 **Smaller File Size** – Built-in compression minimizes storage needs.
-- 🔥 **Optimized for Big Data** – Works seamlessly with cloud storage & analytics frameworks.
-- 🛡️ **Preserves Data Types** – Unlike CSV, it retains correct data types, avoiding conversion issues.
+- **Faster Processing** – Reads only required columns, reducing load times.
+- **Smaller File Size** – Built-in compression minimizes storage needs.
+- **Optimized for Big Data** – Works seamlessly with cloud storage & analytics frameworks.
+- **Preserves Data Types** – Unlike CSV, it retains correct data types, avoiding conversion issues.
 
-🔹 _Parquet is the preferred choice for scalable, high-performance data processing._
+**_Parquet is the preferred choice for scalable, high-performance data processing._**
+
+# Part C
+1. **Interest in Hardware/Electronics Roles**
+  4 - Quite Interested
+
+2. **How Does an Air Conditioner Remote Control Work?**
+  _Most of the information provided here is sourced from Wikipedia: [Wikipedia Link](https://en.wikipedia.org/wiki/Remote_control)_
+
+  a. **Transmission Method**
+    There are several methods for the remote control communicates with the air conditioner:
+
+    - *Infrared (IR)* – The most common method, using light signals in the infrared spectrum.
+    - *Radio Frequency (RF)* – Used in some advanced models, allowing non-line-of-sight operation.
+    - *Bluetooth/Wi-Fi* – Found in smart AC systems, enabling remote control via mobile applications.
+
+  b. **Required Components**
+    - Remote Control Side:
+      * Microcontroller (to encode signals)
+      * IR LED / RF transmitter (to send signals)
+      * Buttons (to select commands)
+      * Power source (batteries)
+
+    - Air Conditioner Side:
+      * IR sensor / RF receiver (to receive signals)
+      * Microcontroller (to decode signals)
+      * Control circuit (to process commands and operate the AC)
+
+  c. **Identifying Button Presses**
+    Several methods can be used to represent different button presses:
+    
+    - *Fixed Unique Codes* – Each button press is associated with a predefined unique binary code.
+    - *Pulse Width Modulation (PWM)* – The duration of pulses varies to indicate different commands.
+    - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
+    - *Protocol-Based Encoding (e.g., NEC, RC5)* – Common IR remote control standards use structured data packets with unique identifiers for each button.
+
