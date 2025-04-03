@@ -153,3 +153,4 @@ The `Part B` folder contains the following files:
     - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
     - *Protocol-Based Encoding (e.g., NEC, RC5)* – Common IR remote control standards use structured data packets with unique identifiers for each button.
 
+# Part D
