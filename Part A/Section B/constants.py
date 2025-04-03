@@ -1,0 +1,5 @@
+INPUT_CSV_FILE = 'time_series.csv'
+INPUT_PARQUET_FILE = 'time_series.parquet'
+SPLIT_FOLDER = 'series_split'
+OUTPUT_FILE = 'hourly_averages.parquet'
+FINAL_OUTPUT_FILE = 'final_averages.parquet'
