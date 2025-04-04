@@ -1,30 +1,86 @@
-//import react from 'react';
+import react, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function SignUp() {
-    return <>
-    <h1 className="text-center text-2xl mt-10">Hello! we happy to have you</h1>
-    <form action="submit.php" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required/>
+export default function SignUp() {
 
-      <label for='role'>Role:</label>
-      <input type="text" id="role" name="role" required/>
+  const Navigate = useNavigate();
+
+  const [userData, setUserData] = useState({
+    'company': '',
+    'username': '',
+    'telephone': '',
+    'contact': '',
+    'merchandise': '',
+    'password': ''
+  });
+
+  async function getValuesFromInput(e) {
+    e.preventDefault();
+    let { name, value } = e.target;
+
+    if (name === 'telephone') {
+      // a filter to take only number
+      value = value.replace(/\D/g, "");
+    }
+    if (name === 'merchandise' || name === 'username' || name === 'company' || name === 'contact') {
+      // a filter to take only letter
+      value = value.replace(/[^a-zA-Z]/g, "");
+    }
+
+    setUserData({ ...userData, [name]: value });
+  };
+
+  async function toSubmit() {
+    try {
+      if (userData.password === '') {
+        // if the user don't enter the telephone alert an error to avoid potentially crashing
+        alert('Please enter your telephone number to sign up');
+        return;
+      }
+      if (userData.telephone === '') {
+        // if the user don't enter the telephone alert an error to avoid potentially crashing
+        alert('Please enter your telephone number to sign up');
+        return;
+      }
+      if (userData.password === '') {
+        // if the user don't enter the password alert an error to avoid potentially crashing
+        alert('Please enter your password to sign up');
+        return;
+      }
+      else {
+        Navigate('/OrderList');
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  return <>
+    <h1>Hello! we happy to have you</h1>
+    <div>
+      <label for="companyName">Company Name:</label>
+      <input type="text" id="companyName" name="companyName" onChange={getValuesFromInput} required />
+
+      <label for='username'>Username:</label>
+      <input type="text" id="username" name="username" onChange={getValuesFromInput} required />
 
       <label for='telephone'>Telephone:</label>
-      <input type="text" id="telephone" name="telephone" required/>
+      <input type="text" id="telephone" name="telephone" onChange={getValuesFromInput} required />
+
+      <label for='contact'>Your Contact Man In The Company:</label>
+      <input type="text" id="contact" name="contact" onChange={getValuesFromInput} required />
+
+      <label for="merchandise">Your merchandise:</label>
+      <input type="password" id="merchandise" name="merchandise" onChange={getValuesFromInput} required />
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required/>
+      <input type="password" id="password" name="password" onChange={getValuesFromInput} required />
 
       {/* <label for="confirmPassword">Confirm Password:</label>
       <input type="password" id="confirmPassword" name="confirmPassword" required/> */}
-  
-      <button type="submit">Log In</button>
-    </form>
-  
-    <h3>Don't have an account?</h3>
-    <button type="submit">Sign Up</button>
-    </>
-  }
-  
-  export default SignUp;
+
+      <button onClick={toSubmit}>Sign Up</button>
+    </div>
+  </>
+}

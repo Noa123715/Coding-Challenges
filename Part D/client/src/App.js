@@ -1,18 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LogIn from "./components/LogIn";
-import SupplierView from "./components/SupplierView";
-import OwnerView from "./components/OwnerView";
+import { BrowserRouter } from 'react-router-dom';
+import Main from './components/Main.js'
+import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/supplier-dashboard" element={<SupplierView />} />
-        <Route path="/store-dashboard" element={<OwnerView />} />
-      </Routes>
-    </Router>
+    <div className="app">
+      <BrowserRouter>
+        {/* routes the page to the landing page */}
+        <Main />
+      </BrowserRouter>
+    </div>
   );
 }
-
-export default App;
