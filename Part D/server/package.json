@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server side for the supermarket app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Noa123715/Coding-Challenges.git"
+  },
+  "author": "Noa Abecassis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Noa123715/Coding-Challenges/issues"
+  },
+  "homepage": "https://github.com/Noa123715/Coding-Challenges#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

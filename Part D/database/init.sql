@@ -2,24 +2,36 @@ CREATE DATABASE SUPERMARKET_APP;
 
 USE SUPERMARKET_APP;
 
+CREATE TABLE UserTypes (
+    type_id INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Catalogs (
+    catalog_id INT AUTO_INCREMENT PRIMARY KEY,
+    catalog_name VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL UNIQUE
+);
+
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_type ENUM('supplier', 'store_owner') NOT NULL,
+    user_type_id INT NOT NULL,
     username VARCHAR(50) NOT NULL,
     company_name VARCHAR(50),
     phone_number VARCHAR(15) NOT NULL,
     contact_person VARCHAR(50),
-    merchandise VARCHAR(50),
-    password INT NOT NULL
+    catalog_id INT,
+    password INT NOT NULL,
+    FOREIGN KEY (user_type_id) REFERENCES UserTypes(type_id),
+    FOREIGN KEY (catalog_id) REFERENCES Catalogs(catalog_id)
 );
 
 CREATE TABLE Products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price_per_item DECIMAL(10, 2) NOT NULL,
+    name VARCHAR(50) CHARACTER SET utf8mb4 NOT NULL,
+    price_per_item DECIMAL(10,2) NOT NULL,
     min_quantity INT NOT NULL,
-    supplier_id INT,
-    FOREIGN KEY (supplier_id) REFERENCES Users(user_id) ON DELETE SET NULL
+    catalog_id INT NOT NULL,
+    FOREIGN KEY (catalog_id) REFERENCES Catalogs(catalog_id)
 );
 
 CREATE TABLE Orders (
