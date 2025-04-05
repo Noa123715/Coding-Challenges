@@ -1,7 +1,10 @@
 import { useState } from "react";
 import OrderDetails from "./OrderDetails";
+import { useNavigate } from "react-router-dom";
 
 export default function OrdersList(props) {
+
+  const Navigate = useNavigate();
 
   const [orderId, setOrderId] = useState(0);
   const [ordersList, setOrdersList] = useState([{ 'id': '1', 'date': '1/1/2021', 'status': 'new', 'user_id': '1' }, { 'id': '2', 'date': '1/1/2021', 'status': 'new', 'user_id': '1' }, { 'id': '3', 'date': '1/1/2021', 'status': 'new', 'user_id': '1' }]);
@@ -49,7 +52,9 @@ export default function OrdersList(props) {
               )}
             </table>
           }
-          {props.userData?.type === 'supplier' ? <div></div> : <h3>Store Name</h3>}
+          {props.userData?.type === 'supplier' ?
+            <div></div> :
+            <div><h3>Need to order something?</h3><button onClick={() => Navigate('/NewOrder')}>Order Now</button></div>}
         </div>
       }
       {view && <OrderDetails userData={props.userData} orderId={orderId} validOrder={validOrder} setView={setView} />}
