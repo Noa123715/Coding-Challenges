@@ -1,48 +1,83 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn(props) {
-
   const Navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function enterValue(e) {
+    e.preventDefault();
+    let { name, value } = e.target;
+
+    if (name === 'username') {
+      // a filter to take only letter
+      value = value.replace(/[^a-zA-Z]/g, "");
+    }
+
+    if (name === "username") setUsername(value);
+    if (name === "password") setPassword(value);
+  }
 
   async function toSubmit(actionType) {
     try {
-      if (actionType === 'logIn') {
-        if (props.userData.telephone === '') {
-          // if the user don't enter the telephone alert an error to avoid potentially crashing
-          alert('Please enter your telephone number to log in');
+      if (actionType === "logIn") {
+        if (username === "") {
+          // if the user don't enter the username alert an error to avoid potentially crashing
+          alert("Please enter your username number to log in");
           return;
         }
-        if (props.userData.password === '') {
+        if (password === "") {
           // if the user don't enter the password alert an error to avoid potentially crashing
-          alert('Please enter your password to log in');
+          alert("Please enter your password to log in");
           return;
-        }
+        } 
         else {
-          Navigate('/OrderList');
+          let response = await fetch(
+            `http://localhost:2000/api/users/username/${username}/password/${password}`
+          );
+          let user = await response.json();
+          if (user.length > 0) {
+            props.getUserValues(user[0]);
+            //props.getUserValues(JSON.stringify(user[0]));
+            Navigate('/OrderList');
+          } 
+          else alert("username or password worng");
         }
       }
-      if (actionType === 'signUp') {
-        Navigate('/SignUp');
+      if (actionType === "signUp") {
+        Navigate("/SignUp");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   }
 
-  return (<>
-    <h1>Hello! To manage your orders, log in now</h1>
-    <div>
-      <label for="telephone">Telephone:</label>
-      <input type="text" id="telephone" name="telephone" onChange={props.getValuesFromInput} />
+  return (
+    <>
+      <h1>Hello! To manage your orders, log in now</h1>
+      <div>
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          onChange={enterValue}
+        />
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" onChange={props.getValuesFromInput} />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          onChange={enterValue}
+        />
 
-      <button onClick={() => toSubmit('logIn')}>Log In</button>
-    </div>
+        <button onClick={() => toSubmit("logIn")}>Log In</button>
+      </div>
 
-    <h3>Don't have an account?</h3>
-    <button onClick={() => toSubmit('signUp')}>Sign Up</button>
-  </>)
+      <h3>Don't have an account?</h3>
+      <button onClick={() => toSubmit("signUp")}>Sign Up</button>
+    </>
+  );
 }

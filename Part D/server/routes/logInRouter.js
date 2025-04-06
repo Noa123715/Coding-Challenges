@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import logInService from '../services/logInService';
+import logInService from '../services/logInService.js';
 
-router.get('/:telephone/password/:password', async (req, res) => {
-    let results = await logInService.getLogIn(req.params.telephone, req.params.password);
+router.get('/username/:username/password/:password', async (req, res) => {
+    let results = await logInService.getLogIn(req.params.username, req.params.password);
     res.json(results);
 });
 

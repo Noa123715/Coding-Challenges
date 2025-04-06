@@ -2,7 +2,7 @@ import express, { json, urlencoded } from "express";
 const app = express();
 const port = 2000;
 
-import logInRouter from './routes/logInRouter';
+import logInRouter from './routes/logInRouter.js';
 
 app.use(json());
 app.use(urlencoded({ extended: true, }));

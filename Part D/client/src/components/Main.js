@@ -9,36 +9,24 @@ export default function Main() {
 
     const [userData, setUserData] = useState({
         'id': '',
-        'type': 'store_owner',
+        'type': '',
         'company': '',
-        'username': 'noa',
+        'username': '',
         'telephone': '',
         'contact': '',
         'merchandise': '',
         'password': ''
     });
 
-    async function getValuesFromInput(e) {
-        e.preventDefault();
-        let { name, value } = e.target;
-
-        if (name === 'telephone') {
-            // a filter to take only number
-            value = value.replace(/\D/g, "");
-        }
-        if (name === 'username' || name === 'company' || name === 'contact') {
-            // a filter to take only letter
-            value = value.replace(/[^a-zA-Z]/g, "");
-        }
-
-        setUserData({ ...userData, [name]: value });
+    async function getUserValues(user) {
+        setUserData(user);
     };
 
     return (
         <>
-            <Routes>
-                <Route exact element={<LogIn userData={userData} getValuesFromInput={getValuesFromInput} />} path='/' />
-                <Route exact element={<SignUp userData={userData} setUserData={setUserData} getValuesFromInput={getValuesFromInput} />} path='/SignUp' />
+            <Routes>getUserValues
+                <Route exact element={<LogIn userData={userData} getUserValues={getUserValues} />} path='/' />
+                <Route exact element={<SignUp userData={userData} setUserData={setUserData} getUserValues={getUserValues} />} path='/SignUp' />
                 <Route exact element={<OrdersList userData={userData}/>} path='/OrderList' />
                 <Route exact element={<NewOrder userData={userData}/>} path='/NewOrder' />
             </Routes>

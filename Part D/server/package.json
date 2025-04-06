@@ -1,6 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "type": "module",
   "description": "server side for the supermarket app",
   "main": "index.js",
   "scripts": {
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/Noa123715/Coding-Challenges#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0"
   }
 }

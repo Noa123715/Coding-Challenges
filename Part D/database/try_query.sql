@@ -8,4 +8,4 @@
 -- INSERT INTO UserTypes (type_name) VALUES ('supplier'), ('store_owner');
 
 -- how to see all the data
-select * from users
+select * from Products

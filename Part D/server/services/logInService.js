@@ -1,9 +1,9 @@
-import { query } from './db';
+import query from "./db.js";
 
-async function getLogIn(mail, password) {
-    const data = await query(`SELECT * FROM users WHERE email = ${JSON.stringify(mail)} AND password = ${JSON.stringify(password)}`);
-    console.log(data);
-   return data;
-};
+async function getLogIn(username, password) {
+  const data = await query(`SELECT * FROM users WHERE username = ${JSON.stringify(username)} AND password = ${JSON.stringify(password)}`);
+  console.log(data);
+  return data;
+}
 
-export default {getLogIn};
+export default { getLogIn };
