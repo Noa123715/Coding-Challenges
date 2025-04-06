@@ -3,6 +3,8 @@ const app = express();
 const port = 2000;
 
 import logInRouter from './routes/logInRouter.js';
+import catalogsRouter from './routes/catalogsRouter.js';
+import ordersRouter from './routes/ordersRouter.js';
 
 app.use(json());
 app.use(urlencoded({ extended: true, }));
@@ -16,7 +18,14 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
+// to logIn + signUp
 app.use("/api/users", logInRouter);
+
+// import all catalogs
+app.use('/api/catalogs', catalogsRouter);
+
+// manage the orders
+app.use('/api/Orders', ordersRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "ok" });

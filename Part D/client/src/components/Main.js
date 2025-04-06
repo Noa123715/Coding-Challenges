@@ -8,13 +8,13 @@ import NewOrder from "./NewOrder";
 export default function Main() {
 
     const [userData, setUserData] = useState({
-        'id': '',
-        'type': '',
-        'company': '',
+        'user_id': '',
+        'user_type_id': '',
+        'company_name': '',
         'username': '',
-        'telephone': '',
-        'contact': '',
-        'merchandise': '',
+        'phone_number': '',
+        'contact_person': '',
+        'catalog_id': '',
         'password': ''
     });
 
@@ -26,7 +26,7 @@ export default function Main() {
         <>
             <Routes>getUserValues
                 <Route exact element={<LogIn userData={userData} getUserValues={getUserValues} />} path='/' />
-                <Route exact element={<SignUp userData={userData} setUserData={setUserData} getUserValues={getUserValues} />} path='/SignUp' />
+                <Route exact element={<SignUp userData={userData} setUserData={setUserData} />} path='/SignUp' />
                 <Route exact element={<OrdersList userData={userData}/>} path='/OrderList' />
                 <Route exact element={<NewOrder userData={userData}/>} path='/NewOrder' />
             </Routes>

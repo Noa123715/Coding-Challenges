@@ -48,8 +48,8 @@ export default function LogIn(props) {
       if (actionType === "signUp") {
         Navigate("/SignUp");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   }
 

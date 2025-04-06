@@ -7,4 +7,9 @@ router.get('/username/:username/password/:password', async (req, res) => {
     res.json(results);
 });
 
+router.post('/newUser', async (req, res) => {
+    let results = await logInService.postSignUp( req.body);
+    res.json(results);
+});
+
 export default router;
