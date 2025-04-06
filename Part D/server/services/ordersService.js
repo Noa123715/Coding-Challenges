@@ -32,4 +32,12 @@ async function getOrderProducts(order_id) {
   return data;
 }
 
-export default { getOrders, validOrder, getOrderDetails, getOrderProducts };
+async function getOrdersStoreOwner() {
+  const data = await query(`SELECT o.id, o.status, o.date, o.sum, u.company_name as name
+  FROM Orders o
+  JOIN Users u ON o.user_id = u.user_id;`);
+  console.log(data);
+  return data;
+}
+
+export default { getOrders, validOrder, getOrderDetails, getOrderProducts, getOrdersStoreOwner };

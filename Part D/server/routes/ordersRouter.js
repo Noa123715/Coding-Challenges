@@ -26,4 +26,9 @@ router.get('/orderProducts/order_id/:order_id', async (req, res) => {
     res.json(results);
 });
 
+router.get('/store_owner', async (req, res) => {
+    let results = await ordersService.getOrdersStoreOwner();
+    res.json(results);
+});
+
 export default router;

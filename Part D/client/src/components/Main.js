@@ -28,7 +28,7 @@ export default function Main() {
                 <Route exact element={<LogIn userData={userData} getUserValues={getUserValues} />} path='/' />
                 <Route exact element={<SignUp userData={userData} setUserData={setUserData} />} path='/SignUp' />
                 <Route exact element={<OrdersList userData={userData}/>} path='/OrderList' />
-                <Route exact element={<NewOrder userData={userData}/>} path='/NewOrder' />
+                <Route exact element={<NewOrder />} path='/NewOrder' />
             </Routes>
         </>
     )

@@ -27,7 +27,6 @@ export default function SignUp(props) {
   }
 
   function getValuesFromInput(e) {
-    e.preventDefault();
     const { name, value } = e.target;
     props.setUserData((prevData) => ({
       ...prevData,
@@ -36,7 +35,6 @@ export default function SignUp(props) {
   }
 
   async function setCatalog(e) {
-    e.preventDefault();
     props.setUserData((prevData) => ({ ...prevData, 'catalog_id': e.target.value }));
     props.setUserData((prevData) => ({ ...prevData, 'user_type_id': '1' }));
   }

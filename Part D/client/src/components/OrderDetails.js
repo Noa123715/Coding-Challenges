@@ -14,11 +14,11 @@ export default function OrderDetails(props) {
     async function getOrderDetails() {
         try {
             // get Order Details
-            let response = await fetch(`http://localhost:2000/api/Orders/orderDetails/user_id/${props.userData.user_id}/order_id/${props.orderId}`);
+            let response = await fetch(`http://localhost:2000/api/orders/orderDetails/user_id/${props.userData.user_id}/order_id/${props.orderId}`);
             response = await response.json();
             setOrderDetails(response);
             // get Order Products
-            response = await fetch(`http://localhost:2000/api/Orders/orderProducts/order_id/${props.orderId}`);
+            response = await fetch(`http://localhost:2000/api/orders/orderProducts/order_id/${props.orderId}`);
             response = await response.json();
             setProductsList(response);
         } catch (error) {

@@ -10,4 +10,11 @@ async function postSignUp(user) {
   return data;
 }
 
-export default { getLogIn, postSignUp };
+async function getSuppliers() {
+  const data = await query(`SELECT u.user_id as id, u.company_name as name, c.catalog_name FROM Users u
+  JOIN Catalogs c ON u.catalog_id = c.catalog_id
+  WHERE user_type_id = '1'`);
+  return data;
+}
+
+export default { getLogIn, postSignUp, getSuppliers };

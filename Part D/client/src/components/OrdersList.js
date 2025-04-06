@@ -15,11 +15,11 @@ export default function OrdersList(props) {
       let response;
       // for the supplier, get all orders
       if (props.userData.user_type_id === 1) {
-        response = await fetch(`http://localhost:2000/api/Orders/user_id/${props.userData.user_id}`);
+        response = await fetch(`http://localhost:2000/api/orders/user_id/${props.userData.user_id}`);
       }
       else { // for the store owner, get all orders
-        response = await fetch(`http://localhost:2000/api/Orders/store_owner`);   
-      } 
+        response = await fetch(`http://localhost:2000/api/orders/store_owner`);   
+      }
       response = await response.json();
       response.sort((a, b) => {
         const statusOrder = {
@@ -55,7 +55,7 @@ export default function OrdersList(props) {
       else {
         toStatus = 'completed';
       }
-      let response = await fetch(`http://localhost:2000/api/Orders/valid`, {
+      let response = await fetch(`http://localhost:2000/api/orders/valid`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default function OrdersList(props) {
                     <td>{item.status}</td>
                     <td>{item.date}</td>
                     <td>{item.sum}</td>
-                    {props.userData.user_type_id === 1 ? <td>Zol-Tov</td> : <td>{item.user_id}</td>}
+                    {props.userData.user_type_id === 1 ? <td>Zol-Tov</td> : <td>{item.name}</td>}
                     <td><button onClick={() => openView(item.id)}>View</button></td>
                     <td><button onClick={() => validOrder(item.id)}>Valid</button></td>
                   </tr>

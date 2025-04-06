@@ -7,4 +7,9 @@ router.get('/', async (req, res) => {
     res.json(results);
 });
 
+router.get('/getAllProducts/user_id/:user_id', async (req, res) => {
+    let results = await catalogsService.getAllProducts(req.params.user_id);
+    res.json(results);
+});
+
 export default router;

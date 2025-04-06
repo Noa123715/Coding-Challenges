@@ -7,7 +7,6 @@ export default function LogIn(props) {
   const [password, setPassword] = useState("");
 
   async function enterValue(e) {
-    e.preventDefault();
     let { name, value } = e.target;
 
     if (name === 'username') {

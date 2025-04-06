@@ -2,7 +2,7 @@ import express, { json, urlencoded } from "express";
 const app = express();
 const port = 2000;
 
-import logInRouter from './routes/logInRouter.js';
+import logInRouter from './routes/usersRouter.js';
 import catalogsRouter from './routes/catalogsRouter.js';
 import ordersRouter from './routes/ordersRouter.js';
 
@@ -18,14 +18,14 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-// to logIn + signUp
+// to logIn + signUp + getSuppliers
 app.use("/api/users", logInRouter);
 
 // import all catalogs
 app.use('/api/catalogs', catalogsRouter);
 
 // manage the orders
-app.use('/api/Orders', ordersRouter);
+app.use('/api/orders', ordersRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "ok" });

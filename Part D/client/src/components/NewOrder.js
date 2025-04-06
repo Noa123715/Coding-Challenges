@@ -1,19 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function NewOrder(props) {
+export default function NewOrder() {
 
     const Navigate = useNavigate();
 
-    const suppliersList = [{ 'name': 'supplier1', 'id': '1' }, { 'name': 'supplier2', 'id': '2' }, { 'name': 'supplier3', 'id': '3' }];
-    const [supplier, setsupplier] = useState({ 'name': '', 'id': '' });
+    const [suppliersList, setSuppliersList] = useState([]);
     const [productsList, setProductsList] = useState([]);
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState([]);
+
+    async function getSuppliers() {
+        try {
+            let response = await fetch('http://localhost:2000/api/users/getSuppliers');
+            response = await response.json();
+            setSuppliersList(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function chooseSupplier(e) {
-        e.preventDefault();
-        setsupplier(prev => ({ ...prev, name: e.target.value }));
-        setProductsList([{ 'id': '1', 'name': 'one', 'min_quantity': '1', 'price_per_item': '1' }]);
+        try{
+            let response = await fetch(`http://localhost:2000/api/catalogs/getAllProducts/user_id/${e.target.value}`); // get the products list for this supplier
+            response = await response.json();
+            setProductsList(response);
+            setQuantity(Array(response.length).fill(0));
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function setQuantityArr(e, index) {
+        const value = e.target.value;
+        const newQuantity = [...quantity];
+        newQuantity[index] = value;
+        setQuantity(newQuantity);
     }
 
     async function toOrder(finish) {
@@ -23,16 +45,20 @@ export default function NewOrder(props) {
         Navigate('/OrderList');
     }
 
+    useEffect(() => {
+        getSuppliers();
+    }, []);
+
     return (
         <>
             <h2>New Order</h2>
 
             <label for='supplier'>Choose a Supplier:</label>
-            <select id="dropdown" value={supplier.name} onChange={chooseSupplier}>
+            <select id="dropdown" onChange={chooseSupplier}>
                 <option value="">    Please choose an option    </option>
                 {suppliersList.map((supplier, index) => (
-                    <option key={index} value={supplier.name}>
-                        {supplier.name}
+                    <option key={index} value={supplier.id}>
+                        {supplier.name + " - " + supplier.catalog_name}
                     </option>
                 ))}
             </select>
@@ -49,14 +75,14 @@ export default function NewOrder(props) {
                         </tr>
                     </thead>
                     {productsList.map((item, index) =>
-                        <tbody key={item.lesson_id}>
+                        <tbody key={index}>
                             <tr>
-                                <td>{item.id}</td>
+                                <td>{item.product_id}</td>
                                 <td>{item.name}</td>
                                 <td>{item.min_quantity}</td>
                                 <td>{item.price_per_item}</td>
-                                <td><input type="number" id="quantity" name="quantity" onChange={(e) => setQuantity(e.target.value)} /></td>
-                                <td>{item.price_per_item * quantity}</td>
+                                <td><input type="number" id="quantity" name="quantity" onChange={(e) => setQuantityArr(e, index)} /></td>
+                                <td>{(item.price_per_item * (quantity[index] || 0)).toFixed(2)}</td> 
                             </tr>
                         </tbody>
                     )}
