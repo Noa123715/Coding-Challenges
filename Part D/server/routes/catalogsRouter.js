@@ -3,7 +3,6 @@ const router = Router();
 import catalogsService from '../services/catalogsService.js';
 
 router.get('/', async (req, res) => {
-    console.log('catalogs');
     let results = await catalogsService.getCatalogs();
     res.json(results);
 });

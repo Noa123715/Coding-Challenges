@@ -12,8 +12,28 @@ export default function OrdersList(props) {
 
   async function getOrders() {
     try {
-      let response = await fetch(`http://localhost:2000/api/Orders/user_id/${props.userData.user_id}`);
+      let response;
+      // for the supplier, get all orders
+      if (props.userData.user_type_id === 1) {
+        response = await fetch(`http://localhost:2000/api/Orders/user_id/${props.userData.user_id}`);
+      }
+      else { // for the store owner, get all orders
+        response = await fetch(`http://localhost:2000/api/Orders/store_owner`);   
+      } 
       response = await response.json();
+      response.sort((a, b) => {
+        const statusOrder = {
+          new: 1,
+          in_progress: 2,
+          completed: 3,
+        };
+        // status are the same
+        if (statusOrder[a.status] === statusOrder[b.status]) {
+          // so sort by date
+          return new Date(a.date) - new Date(b.date);
+        }
+        return statusOrder[a.status] - statusOrder[b.status];
+      });
       setOrdersList(response);
     } catch (error) {
       console.log(error);
@@ -26,7 +46,60 @@ export default function OrdersList(props) {
   }
 
   async function validOrder(id) {
-    //setOrderstatus(id); // change the status of the order with this id
+    try {
+      setOrderId(id);
+      let toStatus = '';
+      if (props.userData.user_type_id === 1) {
+        toStatus = 'in_progress';
+      }
+      else {
+        toStatus = 'completed';
+      }
+      let response = await fetch(`http://localhost:2000/api/Orders/valid`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: props.userData.user_id,
+          order_id: id,
+          status: toStatus,
+        })
+      });
+      response = await response.json();
+      setOrdersList(prevOrders => {
+        // update the current order
+        const updatedOrders = prevOrders.map(order => {
+          if (order.id === id) {
+            return {
+              ...order,
+              status: toStatus,
+            };
+          }
+          return order;
+        });
+  
+        // sort the orders by status and date
+        updatedOrders.sort((a, b) => {
+          const statusOrder = {
+            new: 1,
+            in_progress: 2,
+            completed: 3,
+          };
+  
+          // status are the same
+          if (statusOrder[a.status] === statusOrder[b.status]) {
+            // so sort by date
+            return new Date(a.date) - new Date(b.date);
+          }
+          return statusOrder[a.status] - statusOrder[b.status];
+        });
+  
+        return updatedOrders;
+      });  
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
