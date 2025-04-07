@@ -54,7 +54,7 @@ export default function LogIn(props) {
 
   return (
     <div className="center">
-      <h1>Wellcome To SuperMarket 🛒</h1>
+      <h1>Wellcome To SuperMarket 🛍️</h1>
       <div className="log">
         <h2>To manage your orders, log in now</h2>
         <label for="username">Username:</label>
