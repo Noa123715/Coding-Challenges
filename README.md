@@ -166,7 +166,7 @@ It provides two interfaces:
 To run the application locally, follow these steps:
 
 - Open your Command Line. 
-  for Windows: (1. Press `WinKey ([Windows])` + `R`, 2. Type `cmd`, 3. Press `Enter`)
+  for Windows: (1. Press `WinKey` + `R`, 2. Type `cmd`, 3. Press `Enter`)
   for Mac: (1. Press `Command (⌘)` + `Space`, 2. Type `cmd`, 3. Press `Enter`)
 
 - Clone the repository from GitHub:
@@ -213,67 +213,72 @@ To run the application locally, follow these steps:
 
 **Suppliers**
 
-Can register by providing company name, phone number, representative name, and a list of products they offer.
-
-Can log in to view orders placed by the grocery store.
-
-Can confirm an order, which will move its status to "In Progress".
+- Can register by providing company name, phone number, representative name, and a list of products they offer.
+- Can log in to view orders placed by the grocery store.
+- Can confirm an order, which will move its status to "In Progress".
 
 **Grocery Store Owner**
 
-Can place orders from registered suppliers.
-
-Can view the status of all current and past orders.
-
-Can confirm the receipt of an order, changing its status to "Completed", and the supplier will be notified.
+- Can place orders from registered suppliers.
+- Can view the status of all current and past orders.
+- Can confirm the receipt of an order, changing its status to "Completed", and the supplier will be notified.
 
 ### API Endpoints
 
 **Users:**
 
 - LogIn:
+
   GET /api/users/username/:username/password/:password
 
 - SignUp
+
   POST /api/users/newUser
 
 - Get all Supplier
+
   GET /api/users/getSuppliers
 
 **Catalogs:**
 
 - Get All Catalos for SignUp
+
   GET /api/catalogs
 
 - Get All Products From the Catalog
+
   GET /api/catalogs/getAllProducts/user_id/:user_id
 
 **Orders:**
 
 - Get All order for the Supplier
+
   GET /api/orders/user_id/:user_id
 
 - Update a status of an Order
+
   PUT /api/orders/valid
 
 - Get Order Details
+
   GET /api/orders/orderDetails/user_id/:user_id/order_id/:order_id
 
 - Get All the Order Items of an Order
+
   GET /api/orders/orderProducts/order_id/:order_id
 
 - Get All the Orders for the Store Owner
+
   GET /api/orders/store_owner
 
 - Add a New Order
+
   POST /api/orders/addNewOrder/user_id/:user_id
 
 ### Assumptions
 
 - The system is designed for one grocery store owner only. No multi-owner support is implemented.
-
 - No updates are allowed to users, products, or orders after their creation. Data is considered immutable post-creation.
-
 - Product list per supplier is fixed upon registration.
 
 ### Screenshots
