@@ -285,13 +285,13 @@ To run the application locally, follow these steps:
 ### Screenshots
 
 - Entering the website:
-  <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/LogIn.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/LogIn.png"> <br><br>
 - New User for the Application:
-  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/SignUp.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/SignUp.png"> <br><br>
 - Orders List:
-  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/OrderList.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/OrderList.png"> <br><br>
 - Order Details:
-  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/OrderDetails.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/OrderDetails.png"> <br><br>
 - New Order for the Store Owner:
   <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/NewOrder.png"> <br><br>
 
