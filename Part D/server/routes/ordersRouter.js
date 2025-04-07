@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 import ordersService from '../services/ordersService.js';
 
-// get all orders for a user
+// get all orders for a supplier
 router.get('/user_id/:user_id', async (req, res) => {
     let results = await ordersService.getOrders(req.params.user_id);
     res.json(results);
@@ -26,11 +26,13 @@ router.get('/orderProducts/order_id/:order_id', async (req, res) => {
     res.json(results);
 });
 
+// get all orders for the store owner
 router.get('/store_owner', async (req, res) => {
     let results = await ordersService.getOrdersStoreOwner();
     res.json(results);
 });
 
+// add a new order
 router.post('/addNewOrder/user_id/:user_id', async (req, res) => {
     let results = await ordersService.addNewOrder(req.params.user_id, req.body);
     res.json(results);

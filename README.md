@@ -127,30 +127,161 @@ The `Part B` folder contains the following files:
   _Most of the information provided here is sourced from Wikipedia: [Wikipedia Link](https://en.wikipedia.org/wiki/Remote_control)_
 
   a. **Transmission Method**
-    There are several methods for the remote control communicates with the air conditioner:
+  There are several methods for the remote control communicates with the air conditioner:
 
-    - *Infrared (IR)* – The most common method, using light signals in the infrared spectrum.
-    - *Radio Frequency (RF)* – Used in some advanced models, allowing non-line-of-sight operation.
-    - *Bluetooth/Wi-Fi* – Found in smart AC systems, enabling remote control via mobile applications.
+  - *Infrared (IR)* – The most common method, using light signals in the infrared spectrum.
+  - *Radio Frequency (RF)* – Used in some advanced models, allowing non-line-of-sight operation.
+  - *Bluetooth/Wi-Fi* – Found in smart AC systems, enabling remote control via mobile applications.
 
   b. **Required Components**
-    - Remote Control Side:
-      * Microcontroller (to encode signals)
-      * IR LED / RF transmitter (to send signals)
-      * Buttons (to select commands)
-      * Power source (batteries)
+  - Remote Control Side:
+    * Microcontroller (to encode signals)
+    * IR LED / RF transmitter (to send signals)
+    * Buttons (to select commands)
+    * Power source (batteries)
 
     - Air Conditioner Side:
-      * IR sensor / RF receiver (to receive signals)
-      * Microcontroller (to decode signals)
-      * Control circuit (to process commands and operate the AC)
+    * IR sensor / RF receiver (to receive signals)
+    * Microcontroller (to decode signals)
+    * Control circuit (to process commands and operate the AC)
 
   c. **Identifying Button Presses**
-    Several methods can be used to represent different button presses:
+  Several methods can be used to represent different button presses:
     
-    - *Fixed Unique Codes* – Each button press is associated with a predefined unique binary code.
-    - *Pulse Width Modulation (PWM)* – The duration of pulses varies to indicate different commands.
-    - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
-    - *Protocol-Based Encoding (e.g., NEC, RC5)* – Common IR remote control standards use structured data packets with unique identifiers for each button.
+  - *Fixed Unique Codes* – Each button press is associated with a predefined unique binary code.
+  - *Pulse Width Modulation (PWM)* – The duration of pulses varies to indicate different commands.
+  - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
+  - *Protocol-Based Encoding (e.g., NEC, RC5)* – Common IR remote control standards use structured data packets with unique identifiers for each button.
 
 # Part D
+
+## SuperMarket Management System
+### Application Overview
+This project is an inventory and order management system developed for a local grocery store.  
+It provides two interfaces:
+- A **Supplier Portal** for suppliers to register, view incoming orders from the grocery store, and confirm them.
+- A **Grocery Owner Portal** where the store owner can place orders, track their statuses, and confirm deliveries.
+
+### Setup and Installation
+To run the application locally, follow these steps:
+
+- Open your Command Line. 
+  for Windows: (1. Press `WinKey ([Windows])` + `R`, 2. Type `cmd`, 3. Press `Enter`)
+  for Mac: (1. Press `Command (⌘)` + `Space`, 2. Type `cmd`, 3. Press `Enter`)
+
+- Clone the repository from GitHub:
+    ```bash
+    git clone https://github.com/Noa123715/Coding-Challenges.git
+    ```
+
+- Install dependencies for both the client and server:
+
+    ```bash
+    cd client
+    ```
+
+    ```bash
+    npm install
+    ```
+
+    ```bash
+    cd ../server
+    ```
+
+    ```bash 
+    npm install
+    ```
+- Start the backend server:
+
+    ```bash
+    node index.js &
+    ```
+
+- Start the frontend application:
+
+    ```bash
+    cd ../client
+    ```
+
+    ```bash
+    npm start &
+    ```
+
+- If the browser does not open automatically, navigate to `http://localhost:3000` to view the application.
+
+### Usage Instructions
+
+**Suppliers**
+
+Can register by providing company name, phone number, representative name, and a list of products they offer.
+
+Can log in to view orders placed by the grocery store.
+
+Can confirm an order, which will move its status to "In Progress".
+
+**Grocery Store Owner**
+
+Can place orders from registered suppliers.
+
+Can view the status of all current and past orders.
+
+Can confirm the receipt of an order, changing its status to "Completed", and the supplier will be notified.
+
+### API Endpoints
+
+**Users:**
+
+- LogIn:
+  GET /api/users/username/:username/password/:password
+
+- SignUp
+  POST /api/users/newUser
+
+- Get all Supplier
+  GET /api/users/getSuppliers
+
+**Catalogs:**
+
+- Get All Catalos for SignUp
+  GET /api/catalogs
+
+- Get All Products From the Catalog
+  GET /api/catalogs/getAllProducts/user_id/:user_id
+
+**Orders:**
+
+- Get All order for the Supplier
+  GET /api/orders/user_id/:user_id
+
+- Update a status of an Order
+  PUT /api/orders/valid
+
+- Get Order Details
+  GET /api/orders/orderDetails/user_id/:user_id/order_id/:order_id
+
+- Get All the Order Items of an Order
+  GET /api/orders/orderProducts/order_id/:order_id
+
+- Get All the Orders for the Store Owner
+  GET /api/orders/store_owner
+
+- Add a New Order
+  POST /api/orders/addNewOrder/user_id/:user_id
+
+### Assumptions
+
+- The system is designed for one grocery store owner only. No multi-owner support is implemented.
+
+- No updates are allowed to users, products, or orders after their creation. Data is considered immutable post-creation.
+
+- Product list per supplier is fixed upon registration.
+
+### Screenshots
+
+- Entering the website:
+
+#### The application was developed by Noa Abecassis in Avril 2025. This is the first version of the application.
+
+#### I hope you enjoy using my application and that it proves to be helpful to many people.
+
+# Enjoyable Use 😊
