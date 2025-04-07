@@ -16,7 +16,7 @@ export default function OrderDetails(props) {
             // get Order Details
             let response = await fetch(`http://localhost:2000/api/orders/orderDetails/user_id/${props.userData.user_id}/order_id/${props.orderId}`);
             response = await response.json();
-            setOrderDetails(response);
+            setOrderDetails(response[0]);
             // get Order Products
             response = await fetch(`http://localhost:2000/api/orders/orderProducts/order_id/${props.orderId}`);
             response = await response.json();
@@ -37,7 +37,7 @@ export default function OrderDetails(props) {
                 <h3>Status: {orderDetails.status}  Date: {orderDetails.date}  Sum: {orderDetails.sum}</h3>
             }
             {productsList &&
-                <table>
+                <table className="myTable">
                     <thead>
                         <tr>
                             <th>Product Id</th>
@@ -60,9 +60,10 @@ export default function OrderDetails(props) {
                     )}
                 </table>
             }
-            <button onClick={() => props.setView(false)}>Back</button>
-            {props.userData?.type === 1 ? <th>You Finish the order? Please Valid</th> : <th>The Order arrived? Please Valid</th>}
-            <button onClick={() => props.validOrder(props.orderId)}>Valid Order</button>
+            <br />
+            <button className="myButton" onClick={() => props.setView(false)}>Back</button>
+            {props.userData?.type === 1 ? <h2>You Finish the order? Please Valid</h2> : <h2>The Order arrived? Please Valid</h2>}
+            <button className="myButton" onClick={() => props.validOrder(props.orderId)}>Valid Order</button>
         </>
     )
 }

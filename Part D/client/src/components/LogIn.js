@@ -53,30 +53,21 @@ export default function LogIn(props) {
   }
 
   return (
-    <>
-      <h1>Hello! To manage your orders, log in now</h1>
-      <div>
+    <div className="center">
+      <h1>Wellcome To SuperMarket 🛒</h1>
+      <div className="log">
+        <h2>To manage your orders, log in now</h2>
         <label for="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          onChange={enterValue}
-        />
-
+        <input type="text" id="username" name="username" onChange={enterValue} />
+        <br /> <br />
         <label for="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          onChange={enterValue}
-        />
-
-        <button onClick={() => toSubmit("logIn")}>Log In</button>
+        <input type="password" id="password" name="password" onChange={enterValue} />
+        <br /> <br />
+        <button className="myButton" onClick={() => toSubmit("logIn")}>Log In</button>
       </div>
 
       <h3>Don't have an account?</h3>
-      <button onClick={() => toSubmit("signUp")}>Sign Up</button>
-    </>
+      <button className="myButton" onClick={() => toSubmit("signUp")}>Sign Up</button>
+    </div>
   );
 }

@@ -68,21 +68,23 @@ export default function SignUp(props) {
     getCatalogs();
   }, []);
 
-  return <>
+  return <div className='center'>
     <h1>Hello! we happy to have you</h1>
-    <div>
+    <div className='form'>
+      <h3>Please enter Your Details</h3>
+      <br />
       <label for="company_name">Company Name:</label>
       <input type="text" id="company_name" name="company_name" onChange={getValuesFromInput} />
-
+      <br /><br />
       <label for='username'>Username:</label>
       <input type="text" id="username" name="username" onChange={getValuesFromInput} />
-
+      <br /><br />
       <label for='phone_number'>Telephone:</label>
       <input type="text" id="phone_number" name="phone_number" onChange={getValuesFromInput} />
-
+      <br /><br />
       <label for='contact_person'>Your Contact Man In The Company:</label>
       <input type="text" id="contact_person" name="contact_person" onChange={getValuesFromInput} />
-
+      <br /><br />
       <label for="catalog_id">Your merchandise:</label>
       <select id="dropdown" onChange={setCatalog}>
         <option value="">    Please choose an option    </option>
@@ -92,14 +94,11 @@ export default function SignUp(props) {
           </option>
         ))}
       </select>
-
+      <br /><br />
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" onChange={getValuesFromInput} />
-
-      {/* <label for="confirmPassword">Confirm Password:</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" required/> */}
-
-      <button onClick={toSubmit}>Sign Up</button>
+      <br /><br />
+      <button className='myButton' onClick={toSubmit}>Sign Up</button>
     </div>
-  </>
+  </div>
 }

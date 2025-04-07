@@ -118,7 +118,7 @@ export default function NewOrder() {
     }, []);
 
     return (
-        <>
+        <div className="center">
             <h2>New Order</h2>
             <label for='supplier'>Choose a Supplier:</label>
             <select id="dropdown" onChange={chooseSupplier}>
@@ -129,8 +129,9 @@ export default function NewOrder() {
                     </option>
                 ))}
             </select>
-            {productsList && <div>
-                <table>
+            {(productsList.length > 0 ) && <div>
+                <br />
+                <table className="myTable">
                     <thead>
                         <tr>
                             <th>Product Id</th>
@@ -154,11 +155,11 @@ export default function NewOrder() {
                         </tbody>
                     )}
                 </table>
-                <h2>The Total Price is: {productsList.reduce((total, item, index) => {const qty = parseInt(quantity[index], 10) || 0; return total + (item.price_per_item * qty);}, 0).toFixed(2)
-  }</h2>
+                <h2>The Total Price is: {productsList.reduce((total, item, index) => {const qty = parseInt(quantity[index], 10) || 0; return total + (item.price_per_item * qty);}, 0).toFixed(2)}</h2>
             </div>}
-            <button onClick={toOrder}>Finish Order</button>
-            <button onClick={()=> Navigate('/OrderList')}>Back</button>
-        </>
+            <button className="myButton" onClick={toOrder}>Finish Order</button>
+            <br /><br />
+            <button className="myButton" onClick={()=> Navigate('/OrderList')}>Back</button>
+        </ div>
     )
 }

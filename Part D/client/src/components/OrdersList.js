@@ -118,13 +118,16 @@ export default function OrdersList(props) {
   }, []);
 
   return (
-    <>
+    <div className="center">
       {!view &&
         <div>
-          <h1>Hello {props.userData.username} From {props.userData.company_name}</h1>
+          <h1>{props.userData.username} From {props.userData.company_name} Phone Number: {props.userData.phone_number}</h1>
+          {props.userData.user_type_id === 1 ? 
+          <h2>Your Contact in the Company is: {props.userData.contact_person}</h2> : 
+          <h2></h2>}
           <h2>This is all your orders:</h2>
           {ordersList &&
-            <table>
+            <table className="myTable">
               <thead>
                 <tr>
                   <th>Id</th>
@@ -144,8 +147,8 @@ export default function OrdersList(props) {
                     <td>{item.date}</td>
                     <td>{item.sum}</td>
                     {props.userData.user_type_id === 1 ? <td>Zol-Tov</td> : <td>{item.name}</td>}
-                    <td><button onClick={() => openView(item.id)}>View</button></td>
-                    <td><button onClick={() => validOrder(item.id)}>Valid</button></td>
+                    <td><button className="tableButton" onClick={() => openView(item.id)}>View</button></td>
+                    <td><button className="tableButton" onClick={() => validOrder(item.id)}>Valid</button></td>
                   </tr>
                 </tbody>
               )}
@@ -153,10 +156,10 @@ export default function OrdersList(props) {
           }
           {props.userData.user_type_id === 1 ?
             <div></div> :
-            <div><h3>Need to order something?</h3><button onClick={() => Navigate('/NewOrder')}>Order Now</button></div>}
+            <div><h3>Need to order something?</h3><button className="myButton" onClick={() => Navigate('/NewOrder')}>Order Now</button></div>}
         </div>
       }
       {view && <OrderDetails userData={props.userData} orderId={orderId} validOrder={validOrder} setView={setView} />}
-    </>
+    </div>
   );
 }
