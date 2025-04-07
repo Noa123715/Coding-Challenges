@@ -1,0 +1,66 @@
+.center{
+  text-align: center;
+  color: #045f75; 
+}
+.log{
+  width: 30em;
+  height: 300px;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-radius: 20px;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+.form{
+  width: 40em;
+  height: 400px;
+  margin: 0 auto;
+  border: 2px solid black;
+  border-radius: 20px;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+}
+.tableButton{
+  background-color: #d0f0fd;
+  color: #045f75; 
+  padding: 8px 16px;
+  font-size: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.myButton {
+  background-color: #d0f0fd;
+  color: #045f75; 
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.tableButton:hover,
+.myButton:hover {
+  background-color: #b8e9fb;
+  transform: scale(1.05);
+}
+
+.myTable {
+  border-collapse: collapse;
+  background-color: white;
+  font-family: sans-serif;
+  margin: 0 auto;
+}
+
+.myTable th,
+.myTable td {
+  padding: 12px;
+  border: 1px solid #d0f0fd; /* קווים בצבע תכלת בהיר */
+  text-align: left;
+}
+
+.myTable th {
+  background-color: #f0fbff; /* כותרת בגוון תכלת ממש חלש */
+  color: #045f75;            /* טקסט תכלת כהה */
+}
