@@ -287,13 +287,13 @@ To run the application locally, follow these steps:
 - Entering the website:
   <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/LogIn.png"> <br><br>
 - New User for the Application:
-  <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/SignUp.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/SignUp.png"> <br><br>
 - Orders List:
-  <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/OrderList.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/OrderList.png"> <br><br>
 - Order Details:
-  <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/OrderDetails.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/OrderDetails.png"> <br><br>
 - New Order for the Store Owner:
-  <img src="https://github.com/noa123715/Coding-Challenges/blob/main/screenshots/NewOrder.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/NewOrder.png"> <br><br>
 
 #### The application was developed by Noa Abecassis in Avril 2025. This is the first version of the application.
 
