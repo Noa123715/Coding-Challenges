@@ -5,6 +5,7 @@ const port = 2000;
 import logInRouter from './routes/usersRouter.js';
 import catalogsRouter from './routes/catalogsRouter.js';
 import ordersRouter from './routes/ordersRouter.js';
+import salesRouter from './routes/salesRouter.js';
 
 app.use(json());
 app.use(urlencoded({ extended: true, }));
@@ -26,6 +27,9 @@ app.use('/api/catalogs', catalogsRouter);
 
 // manage the orders
 app.use('/api/orders', ordersRouter);
+
+// for the
+app.use('/api/sales', salesRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "ok" });

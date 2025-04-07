@@ -40,6 +40,21 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.POS{
+  position: fixed;
+  top: 10%;
+  left: 20px;
+  background-color: #d0f0fd;
+  color: #045f75; 
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.POS:hover,
 .tableButton:hover,
 .myButton:hover {
   background-color: #b8e9fb;
@@ -63,4 +78,10 @@
 .myTable th {
   background-color: #f0fbff; /* כותרת בגוון תכלת ממש חלש */
   color: #045f75;            /* טקסט תכלת כהה */
+}
+
+.newOrder{
+  position: fixed;
+  bottom: 10%;
+  right: 20px;
 }
