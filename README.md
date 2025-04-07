@@ -293,7 +293,7 @@ To run the application locally, follow these steps:
 - Order Details:
   <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/OrderDetails.png"> <br><br>
 - New Order for the Store Owner:
-  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/screenshots/NewOrder.png"> <br><br>
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/NewOrder.png"> <br><br>
 
 #### The application was developed by Noa Abecassis in Avril 2025. This is the first version of the application.
 
