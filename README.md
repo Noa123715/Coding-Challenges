@@ -228,52 +228,53 @@ To run the application locally, follow these steps:
 **Users:**
 
 - LogIn:
-
+  ```bash
   GET /api/users/username/:username/password/:password
-
+  ```
 - SignUp
-
+  ```bash
   POST /api/users/newUser
-
+  ```
 - Get all Supplier
-
+  ```bash
   GET /api/users/getSuppliers
-
+  ```
 **Catalogs:**
 
 - Get All Catalos for SignUp
-
+  ```bash
   GET /api/catalogs
-
+  ```
 - Get All Products From the Catalog
-
+  ```bash
   GET /api/catalogs/getAllProducts/user_id/:user_id
-
+  ```
 **Orders:**
 
 - Get All order for the Supplier
-
+  ```bash
   GET /api/orders/user_id/:user_id
-
+  ```
 - Update a status of an Order
-
+  ```bash
   PUT /api/orders/valid
-
+  ```
 - Get Order Details
-
+  ```bash
   GET /api/orders/orderDetails/user_id/:user_id/order_id/:order_id
-
+  ```
 - Get All the Order Items of an Order
-
+  ```bash
   GET /api/orders/orderProducts/order_id/:order_id
-
+  ```
 - Get All the Orders for the Store Owner
-
+  ```bash
   GET /api/orders/store_owner
-
+  ```
 - Add a New Order
-
+  ```bash
   POST /api/orders/addNewOrder/user_id/:user_id
+  ```
 
 ### Assumptions
 
