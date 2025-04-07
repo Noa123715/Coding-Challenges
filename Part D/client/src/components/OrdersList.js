@@ -10,6 +10,21 @@ export default function OrdersList(props) {
   const [ordersList, setOrdersList] = useState([]);
   const [view, setView] = useState(false);
 
+  function sortOrdersByStatusAndDate(orders) {
+    const statusOrder = {
+      new: 1,
+      in_progress: 2,
+      completed: 3,
+    };
+  
+    return orders.sort((a, b) => {
+      if (statusOrder[a.status] === statusOrder[b.status]) {
+        return new Date(a.date) - new Date(b.date);
+      }
+      return statusOrder[a.status] - statusOrder[b.status];
+    });
+  }  
+
   async function getOrders() {
     try {
       let response;
@@ -21,20 +36,8 @@ export default function OrdersList(props) {
         response = await fetch(`http://localhost:2000/api/orders/store_owner`);   
       }
       response = await response.json();
-      response.sort((a, b) => {
-        const statusOrder = {
-          new: 1,
-          in_progress: 2,
-          completed: 3,
-        };
-        // status are the same
-        if (statusOrder[a.status] === statusOrder[b.status]) {
-          // so sort by date
-          return new Date(a.date) - new Date(b.date);
-        }
-        return statusOrder[a.status] - statusOrder[b.status];
-      });
-      setOrdersList(response);
+      const sortedOrders = sortOrdersByStatusAndDate(response);
+      setOrdersList(sortedOrders);
     } catch (error) {
       console.log(error);
     }
@@ -49,12 +52,35 @@ export default function OrdersList(props) {
     try {
       setOrderId(id);
       let toStatus = '';
-      if (props.userData.user_type_id === 1) {
-        toStatus = 'in_progress';
+      let message = '';
+      if (props.userData.user_type_id === 2) {
+        // store_owner
+        const order = ordersList.find(order => order.id === id);
+        if (order.status === 'new') {
+          message = 'The order is awaiting confirmation from the Supplier who handled it.';
+        } else if (order.status === 'in_progress') {
+          toStatus = 'completed';
+        } else if (order.status === 'completed') {
+          message = 'The order has already been completed and cannot be confirmed.';
+        }
+      } else {
+        // supplier
+        const order = ordersList.find(order => order.id === id);
+        if (order.status === 'new') {
+          toStatus = 'in_progress';
+        } else if (order.status === 'in_progress') {
+          message = 'The order is awaiting confirmation from the store owner who received it.';
+        } else if (order.status === 'completed') {
+          message = 'The order has already been completed and cannot be confirmed.';
+        }
       }
-      else {
-        toStatus = 'completed';
+  
+      if (message) {
+        alert(message);
+        return;
       }
+  
+      // if all is ok -> send the new status
       let response = await fetch(`http://localhost:2000/api/orders/valid`, {
         method: 'PUT',
         headers: {
@@ -67,40 +93,25 @@ export default function OrdersList(props) {
         })
       });
       response = await response.json();
+  
       setOrdersList(prevOrders => {
-        // update the current order
+        // update status in the order
         const updatedOrders = prevOrders.map(order => {
           if (order.id === id) {
             return {
               ...order,
-              status: toStatus,
+              status: toStatus || order.status,
             };
           }
           return order;
         });
-  
-        // sort the orders by status and date
-        updatedOrders.sort((a, b) => {
-          const statusOrder = {
-            new: 1,
-            in_progress: 2,
-            completed: 3,
-          };
-  
-          // status are the same
-          if (statusOrder[a.status] === statusOrder[b.status]) {
-            // so sort by date
-            return new Date(a.date) - new Date(b.date);
-          }
-          return statusOrder[a.status] - statusOrder[b.status];
-        });
-  
-        return updatedOrders;
-      });  
+        return sortOrdersByStatusAndDate(updatedOrders);
+      });
     } catch (error) {
       console.log(error);
     }
   }
+  
 
   useEffect(() => {
     getOrders();

@@ -7,7 +7,7 @@ async function getLogIn(username, password) {
 
 async function postSignUp(user) {
   const data = await query(`INSERT INTO users (user_type_id, username, company_name, phone_number, contact_person, catalog_id, password) VALUES (${JSON.stringify(user.user_type_id)}, ${JSON.stringify(user.username)}, ${JSON.stringify(user.company_name)}, ${JSON.stringify(user.phone_number)}, ${JSON.stringify(user.contact_person)}, ${JSON.stringify(user.catalog_id)}, ${JSON.stringify(user.password)})`);
-  return data;
+  return { success: true, data };
 }
 
 async function getSuppliers() {

@@ -56,6 +56,7 @@ export default function SignUp(props) {
         mode: 'cors'
       });
       response = await response.json();
+      console.log(response);
       Navigate('/OrderList');
     }
     catch (err) {

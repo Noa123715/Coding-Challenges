@@ -9,7 +9,7 @@ async function getOrders(user_id) {
 async function validOrder(user_id, order_id, status) {
   const data = await query(`UPDATE Orders SET status = ${JSON.stringify(status)} WHERE user_id = ${JSON.stringify(user_id)} AND id = ${JSON.stringify(order_id)}`);
   console.log(data);
-  return data;
+  return { success: true, data };
 }
 
 async function getOrderDetails(user_id, order_id) {
@@ -40,4 +40,39 @@ async function getOrdersStoreOwner() {
   return data;
 }
 
-export default { getOrders, validOrder, getOrderDetails, getOrderProducts, getOrdersStoreOwner };
+async function addNewOrder(user_id, newOrder) {
+  const { items, total_price } = newOrder;
+
+  // check if total_price and user_id are valid
+  const parsedTotal = parseFloat(total_price);
+  const parsedUserId = parseInt(user_id);
+
+  if (isNaN(parsedTotal) || isNaN(parsedUserId)) {
+    throw new Error(`Invalid input: total_price=${total_price}, user_id=${user_id}`);
+  }
+
+  // insert the order
+  const insertOrderQuery = `
+    INSERT INTO Orders (status, sum, user_id) 
+    VALUES ('new', ${JSON.stringify(parsedTotal)}, ${JSON.stringify(parsedUserId)})
+  `;
+  console.log("Insert Order Query:", insertOrderQuery);
+  const orderResult = await query(insertOrderQuery);
+  const orderId = orderResult.insertId;
+
+  // build insert items query
+  const itemValues = items.map(item => 
+    `(${JSON.stringify(orderId)}, ${JSON.stringify(item.product_id)}, ${JSON.stringify(item.quantity)})`
+  ).join(', ');
+
+  const insertItemsQuery = `
+    INSERT INTO Order_Items (order_id, product_id, quantity) 
+    VALUES ${itemValues}
+  `;
+  console.log("Insert Items Query:", insertItemsQuery);
+  await query(insertItemsQuery);
+
+  return { success: true, orderId };
+}
+
+export default { getOrders, validOrder, getOrderDetails, getOrderProducts, getOrdersStoreOwner, addNewOrder };

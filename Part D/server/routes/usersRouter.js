@@ -8,7 +8,7 @@ router.get('/username/:username/password/:password', async (req, res) => {
 });
 
 router.post('/newUser', async (req, res) => {
-    let results = await usersService.postSignUp( req.body);
+    let results = await usersService.postSignUp(req.body);
     res.json(results);
 });
 

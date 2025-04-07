@@ -38,7 +38,7 @@ CREATE TABLE Orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     status ENUM('new', 'in_progress', 'completed') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    sum INT NOT NULL,
+    sum FLOAT NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE SET NULL
 );

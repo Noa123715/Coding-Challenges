@@ -31,4 +31,9 @@ router.get('/store_owner', async (req, res) => {
     res.json(results);
 });
 
+router.post('/addNewOrder/user_id/:user_id', async (req, res) => {
+    let results = await ordersService.addNewOrder(req.params.user_id, req.body);
+    res.json(results);
+});
+
 export default router;
