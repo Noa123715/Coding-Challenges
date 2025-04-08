@@ -65,7 +65,7 @@ When updating averages, there are several strategies you can use depending on th
 
 - **Sliding Window Average**: In this approach, you maintain a fixed-size window of the most recent data points. As new data comes in, it is added to the window, and the oldest data point is removed. This way, the average always reflects the most recent data within the window.
   
-- **Exponential Moving Average (EMA)**: This technique gives more weight to recent data by applying an exponentially decaying weight to older data points. This is especially useful when recent data is considered more important for future predictions.
+- **Exponential Moving Average**: This technique gives more weight to recent data by applying an exponentially decaying weight to older data points. This is especially useful when recent data is considered more important for future predictions.
 
 - **Efficient Data Structures**: To manage the data efficiently in real-time, you can use data structures that allow fast addition and removal of data points. This ensures that the average can be updated quickly without introducing delays.
 
@@ -108,8 +108,8 @@ The `Part B` folder contains the following files:
   a. **Transmission Method**
   There are several methods for the remote control communicates with the air conditioner:
 
-  - *Infrared (IR)* – The most common method, using light signals in the infrared spectrum. [Infrared](https://davidson.weizmann.ac.il/online/scienceathome/biology/%D7%90%D7%99%D7%9A-%D7%A4%D7%95%D7%A2%D7%9C-%D7%A9%D7%9C%D7%98-%D7%90%D7%95%D7%A8-%D7%90%D7%99%D7%A0%D7%A4%D7%A8%D7%94-%D7%90%D7%93%D7%95%D7%9D)
-  - *Radio Frequency (RF)* – Used in some advanced models, allowing non-line-of-sight operation.
+  - *[Infrared](https://davidson.weizmann.ac.il/online/scienceathome/biology/%D7%90%D7%99%D7%9A-%D7%A4%D7%95%D7%A2%D7%9C-%D7%A9%D7%9C%D7%98-%D7%90%D7%95%D7%A8-%D7%90%D7%99%D7%A0%D7%A4%D7%A8%D7%94-%D7%90%D7%93%D7%95%D7%9D)* – The most common method, using light signals in the infrared spectrum.
+  - *Radio Frequency* – Used in some advanced models, allowing non-line-of-sight operation.
   - *Bluetooth/Wi-Fi* – Found in smart AC systems, enabling remote control via mobile applications.
 
   b. **Required Components**
@@ -128,8 +128,8 @@ The `Part B` folder contains the following files:
   Several methods can be used to represent different button presses:
     
   - *Fixed Unique Codes* – Each button press is associated with a predefined unique binary code.
-  - *Pulse Width Modulation (PWM)* – The duration of pulses varies to indicate different commands.
-  - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
+  - *Pulse Width Modulation* – The duration of pulses varies to indicate different commands.
+  - *Frequency Modulation* – Different signals are sent at slightly varied frequencies for each button.
   - *Protocol-Based Encoding* – Common IR remote control standards use structured data packets with unique identifiers for each button.
 
 # Part D
@@ -266,15 +266,18 @@ Then you can run the scripts in the folder database -> Finally you have the DB r
 **UserTypes**
 - type_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
 - type_name: `VARCHAR(50)`
+
 **Catalogs**
 - catalog_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
 - catalog_name: `VARCHAR(50)`
+
 **Products**
 - product_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
 - name: `VARCHAR(50)`
 - price_per_item: `DECIMAL(10,2)`
 - min_quantity: `INT`
 - catalog_id: `INT -> FOREIGN KEY`
+
 **Users**
 - user_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
 - user_type_id: `INT -> FOREIGN KEY`
@@ -284,12 +287,14 @@ Then you can run the scripts in the folder database -> Finally you have the DB r
 - contact_person: `VARCHAR(50)` -> will be null for the store-owner
 - catalog_id: `VARCHAR(50)` -> will be null for the store-owner
 - password: `INT`
+
 **Orders**
 - id: `INT AUTO_INCREMENT -> PRIMARY KEY`
 - status: `ENUM('new', 'in_progress', 'completed')`
 - date: `DATETIME`
 - sum: `FLOAT`
 - user_id: `INT -> FOREIGN KEY`
+
 **Order_Items**
 - order_id: `INT -> FOREIGN KEY`
 - product_id: `INT -> FOREIGN KEY`
