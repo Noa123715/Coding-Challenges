@@ -38,10 +38,9 @@ export default function LogIn(props) {
           let user = await response.json();
           if (user.length > 0) {
             props.getUserValues(user[0]);
-            //props.getUserValues(JSON.stringify(user[0]));
             Navigate('/OrderList');
           } 
-          else alert("username or password worng");
+          else alert("username or password worng\n Please sign uo if you don't have an account");
         }
       }
       if (actionType === "signUp") {
@@ -54,7 +53,7 @@ export default function LogIn(props) {
 
   return (
     <div className="center">
-      <h1>Wellcome To SuperMarket 🛒</h1>
+      <h1>Wellcome To SuperMarket 🛍️</h1>
       <div className="log">
         <h2>To manage your orders, log in now</h2>
         <label for="username">Username:</label>

@@ -1,3 +1,4 @@
+# הגשת מבחן בית-הדסים 5.0
 # Coding Challenges - 🗃️
 # Repository Overview
 This repository provides a solution for a home assignment as part of the recruitment process. The exercise, and the solution, are structured in four parts with a bonus section.
@@ -7,7 +8,7 @@ I made an effort in all parts to provide the most efficient solution I could imp
 
 ***Repository Structure***
 
-Each part has its own tag, and there is a final tag named: **`FINAL_VERSION`** that contains the complete solution
+Each part has its own Branch, and there is a final tag named: **`FINAL_VERSION`** that contains the complete solution
 
 # Part A
 The solution in this part is written in Python.
@@ -28,46 +29,24 @@ The `Part A` folder contains the following folder:
 
 ## **Time and Space Complexity Analysis**
 
-To analyze the time and space complexity of the solution, we will go through each function in the code and examine the complexity of each. We assume the worst-case scenario for all calculations.
+_Runtime complexity:_
+- The complexity is calculated on the main function that calls all other functions.
+All functions run one after the other, meaning there are no nested functions, and therefore all functions (except the merge_error_counts function) have a runtime of \(O(M)\) where \(M\) is the number of lines in the original file.
+- The merge_error_counts function counts the frequency of errors from all small files and therefore runs in \(O(M)\) where \(M\) is the number of unique errors.
+- Since \(M\) is negligible compared to \(O(MlogM)\), the final result will be \(O(MlogM)\).
 
-1. **Function `split_log_file`**
-  This function is responsible for splitting a large log file into smaller files, each containing up to `LINES_PER_FILE` lines.
-  - **Time Complexity**: For each line in the log file, the function reads it and writes it to a new file. In the worst case, each line needs to be read and written once, so the time complexity is \(O(M)\), where `M` is the number of lines in the log file.
-  - **Space Complexity**: The function processes the file line by line without storing large portions in memory at once. Therefore, the space complexity is \(O(1)\).
+**_final answer: \(O(MlogM)\)_**
 
-2. **Function `count_errors_in_file`**
-  This function reads each line from the log file and counts the occurrences of each error code.
-  - **Time Complexity**: The function iterates over each line in the file and updates the error count (using a `Counter` data structure, which operates in O(1) per update). Therefore, the time complexity is \(O(L)\), where `L` is the number of lines in the file.
-  - **Space Complexity**: The function stores the error counts in a `Counter` data structure. In the worst case, each error is unique, so we need to store up to \(O(L)\) unique error codes.
+_Place complexity:_
+The code divides the large file into small files, and calculates the frequency of each error for each small file (saved in a file) and then writes the frequencies of all files to the final file
+In the worst case, the number of lines in the original file will be the same as the number of unique errors
+Therefore, the space complexity is \(O(M)\) for the large and final file, and \(O(E * T)\) for the small files.
+Where \(M\) is the number of lines in the original file and the number of unique errors in the final file
+\(T\) is the number of small files created
+\(E\) is the number of unique errors
+Since \(O(M)\) is negligible compared to \(O(E * T)\), the final complexity will be \(O(E * T)\)
 
-3. **Function `process_log_parts`**
-  This function reads all the split log files and performs error counting for each file.
-  - **Time Complexity**: For each file, the function reads all the lines and counts the errors. If there are `P` files, the total time complexity is \(O(L)\), where `L` is the total number of lines in the original log file.
-  - **Space Complexity**: The function stores the error counts for each file separately, so the space complexity for each file is \(O(U)\), where `U` is the number of unique errors in the file. Across all files, the required space is \(O(P * U)\) in the worst case.
-
-4. **Function `merge_error_counts`**
-  This function merges the error counts from different temporary files and sorts the errors by frequency.
-  - **Time Complexity**: The function reads data from all the temporary files and sums the errors, then sorts the counts. The data reading time is \(O(U)\), where `U` is the number of unique errors across all files. Then, sorting the errors takes \(O(N log N)\), where `N` is the number of unique errors. Therefore, the total time complexity is \(O(U + N log N)\).
-  - **Space Complexity**: The function stores the total error counts in a `Counter` data structure. In the worst case, if all errors are unique, the space complexity is \(O(N)\).
-
-5. **Function `get_top_n_errors`**
-  The function extracts the top `N` most common error codes from the merged error count file.
-  - **Time Complexity**:
-    * Opening the file – \(O(1)\).
-    * Reading lines from the file – In the worst case, if `N` is large, the function reads all `M` lines from the file, making this step \(O(M)\).
-    * Appending lines to a list – Since appending takes \(O(1)\), this contributes at most **O(N)**, so the total time complexity is: \(O(M)\).
-    * **Space Complexity**: The list `top_errors` stores at most `N` lines, requiring \(O(N)\) space. Other variables (such as file handles and loop counters) use \(O(1)\) space. The final space complexity: \(O(N))\.
-
-6. **Function `main`**
-  This function ties all the steps together and performs all the operations described.
-  The overall complexity of the `main` function is the sum of the complexities of the different functions, so the total time complexity is \(O(L + U + N log N)\), where `L` is the number of lines in the log file, `U` is the number of unique errors, and `N` is the number of unique errors in the final result.
-
-### **Final Answer**
-  - **Total Time Complexity**:  
-  Since merging results and counting errors for a relatively limited number of unique errors contributes less to the total complexity, the overall final time complexity is: \(O(N log N)\), where `N` is the number of most common error codes we need to extract from the log file as specified in the input.
-
-  - **Total Space Complexity**:  
-  The final overall space complexity is: \(O(N)\), where `N` is the number of most common error codes stored in the output list.
+**_final answer: \(O(E * T)\)_**
 
 ## Section B, Question 3
 
@@ -86,7 +65,7 @@ When updating averages, there are several strategies you can use depending on th
 
 - **Sliding Window Average**: In this approach, you maintain a fixed-size window of the most recent data points. As new data comes in, it is added to the window, and the oldest data point is removed. This way, the average always reflects the most recent data within the window.
   
-- **Exponential Moving Average (EMA)**: This technique gives more weight to recent data by applying an exponentially decaying weight to older data points. This is especially useful when recent data is considered more important for future predictions.
+- **Exponential Moving Average**: This technique gives more weight to recent data by applying an exponentially decaying weight to older data points. This is especially useful when recent data is considered more important for future predictions.
 
 - **Efficient Data Structures**: To manage the data efficiently in real-time, you can use data structures that allow fast addition and removal of data points. This ensures that the average can be updated quickly without introducing delays.
 
@@ -129,8 +108,8 @@ The `Part B` folder contains the following files:
   a. **Transmission Method**
   There are several methods for the remote control communicates with the air conditioner:
 
-  - *Infrared (IR)* – The most common method, using light signals in the infrared spectrum.
-  - *Radio Frequency (RF)* – Used in some advanced models, allowing non-line-of-sight operation.
+  - *[Infrared](https://davidson.weizmann.ac.il/online/scienceathome/biology/%D7%90%D7%99%D7%9A-%D7%A4%D7%95%D7%A2%D7%9C-%D7%A9%D7%9C%D7%98-%D7%90%D7%95%D7%A8-%D7%90%D7%99%D7%A0%D7%A4%D7%A8%D7%94-%D7%90%D7%93%D7%95%D7%9D)* – The most common method, using light signals in the infrared spectrum.
+  - *Radio Frequency* – Used in some advanced models, allowing non-line-of-sight operation.
   - *Bluetooth/Wi-Fi* – Found in smart AC systems, enabling remote control via mobile applications.
 
   b. **Required Components**
@@ -149,9 +128,9 @@ The `Part B` folder contains the following files:
   Several methods can be used to represent different button presses:
     
   - *Fixed Unique Codes* – Each button press is associated with a predefined unique binary code.
-  - *Pulse Width Modulation (PWM)* – The duration of pulses varies to indicate different commands.
-  - *Frequency Modulation (FM)* – Different signals are sent at slightly varied frequencies for each button.
-  - *Protocol-Based Encoding (e.g., NEC, RC5)* – Common IR remote control standards use structured data packets with unique identifiers for each button.
+  - *Pulse Width Modulation* – The duration of pulses varies to indicate different commands.
+  - *Frequency Modulation* – Different signals are sent at slightly varied frequencies for each button.
+  - *Protocol-Based Encoding* – Common IR remote control standards use structured data packets with unique identifiers for each button.
 
 # Part D
 
@@ -208,6 +187,12 @@ To run the application locally, follow these steps:
     ```
 
 - If the browser does not open automatically, navigate to `http://localhost:3000` to view the application.
+
+To the DataBase you need to have mySql on the computer...
+- You can download the Server from the following link: [mySql Server 8.0](https://dev.mysql.com/downloads/mysql/8.0.html)
+- You can download the Workbanch from the following link: [mySql WorkBanch](https://dev.mysql.com/downloads/workbench/)
+
+Then you can run the scripts in the folder database -> Finally you have the DB ready.
 
 ### Usage Instructions
 
@@ -276,6 +261,45 @@ To run the application locally, follow these steps:
   POST /api/orders/addNewOrder/user_id/:user_id
   ```
 
+### DataBase Structure
+
+**UserTypes**
+- type_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
+- type_name: `VARCHAR(50)`
+
+**Catalogs**
+- catalog_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
+- catalog_name: `VARCHAR(50)`
+
+**Products**
+- product_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
+- name: `VARCHAR(50)`
+- price_per_item: `DECIMAL(10,2)`
+- min_quantity: `INT`
+- catalog_id: `INT -> FOREIGN KEY`
+
+**Users**
+- user_id: `INT AUTO_INCREMENT -> PRIMARY KEY`
+- user_type_id: `INT -> FOREIGN KEY`
+- username: `VARCHAR(50)`
+- company_name: `VARCHAR(50)`
+- phone_number: `VARCHAR(50)`
+- contact_person: `VARCHAR(50)` -> will be null for the store-owner
+- catalog_id: `VARCHAR(50)` -> will be null for the store-owner
+- password: `INT`
+
+**Orders**
+- id: `INT AUTO_INCREMENT -> PRIMARY KEY`
+- status: `ENUM('new', 'in_progress', 'completed')`
+- date: `DATETIME`
+- sum: `FLOAT`
+- user_id: `INT -> FOREIGN KEY`
+
+**Order_Items**
+- order_id: `INT -> FOREIGN KEY`
+- product_id: `INT -> FOREIGN KEY`
+- quantity: `INT`
+
 ### Assumptions
 
 - The system is designed for one grocery store owner only. No multi-owner support is implemented.
@@ -294,6 +318,44 @@ To run the application locally, follow these steps:
   <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/OrderDetails.png"> <br><br>
 - New Order for the Store Owner:
   <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/NewOrder.png"> <br><br>
+
+# Bonus
+
+### OverView
+
+This add-on is designed to help the store owner manage their inventory efficiently. It includes a comprehensive database of all the merchandise in the store and integrates with the point of sale system via API. The store owner defines a minimum inventory for each item, and when the inventory drops below this threshold, the system automatically places an order with the supplier offering the best price. If there is no doubt that this product is available, the store owner is notified.
+There is a point of sale where the store owner makes the customer's purchase and the server updates the inventory accordingly. If the customer took a quantity of a product that is not in stock, he receives a notification that the product was not included in the purchase.
+
+***Dictionary:*** *POS: Point Of Sales*
+
+### Usage instructions
+
+The store owner logs in with his user and has the option to proceed to the POS.
+There he simply enters the quantity of each product the customer bought and clicks on complete purchase.
+Everything else is done automatically...
+
+### API Endpoint
+- Get All Products to do the client order
+  ```bash
+  GET /api/sales/getProducts
+  ```
+- Automating ordering products from suppliers and updating inventory
+  ```bash
+  POST /api/sales/endPurchase
+  ```
+
+### DataBase
+
+**Invemtory**
+- product_id: `INT -> FOREIGN KEY`
+- quantity: `INT`
+- min_quantity: `INT`
+
+### Screenshot
+
+- The Point Of Sales: Chashier:
+  <img src="https://github.com/noa123715/Coding-Challenges/raw/main/Part%20D/screenshots/POS.png">
+
 
 #### The application was developed by Noa Abecassis in Avril 2025. This is the first version of the application.
 

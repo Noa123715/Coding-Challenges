@@ -124,7 +124,7 @@ export default function OrdersList(props) {
           <h1>{props.userData.username} From {props.userData.company_name} Phone Number: {props.userData.phone_number}</h1>
           {props.userData.user_type_id === 1 ? 
           <h2>Your Contact in the Company is: {props.userData.contact_person}</h2> : 
-          <h2></h2>}
+          <button className="POS" onClick={() => Navigate('/PointOfSales')}>Go To The POS</button>}
           <h2>This is all your orders:</h2>
           {ordersList &&
             <table className="myTable">
@@ -156,7 +156,7 @@ export default function OrdersList(props) {
           }
           {props.userData.user_type_id === 1 ?
             <div></div> :
-            <div><h3>Need to order something?</h3><button className="myButton" onClick={() => Navigate('/NewOrder')}>Order Now</button></div>}
+            <div className="newOrder"><h3>Need to order something?</h3><button className="myButton" onClick={() => Navigate('/NewOrder')}>Order Now</button></div>}
         </div>
       }
       {view && <OrderDetails userData={props.userData} orderId={orderId} validOrder={validOrder} setView={setView} />}

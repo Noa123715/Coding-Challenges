@@ -4,6 +4,7 @@ import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import OrdersList from "./OrdersList";
 import NewOrder from "./NewOrder";
+import POS from "./POS";
 
 export default function Main() {
 
@@ -27,6 +28,7 @@ export default function Main() {
             <Routes>getUserValues
                 <Route exact element={<LogIn userData={userData} getUserValues={getUserValues} />} path='/' />
                 <Route exact element={<SignUp userData={userData} setUserData={setUserData} />} path='/SignUp' />
+                <Route exact element={<POS />} path='/PointOfSales' />
                 <Route exact element={<OrdersList userData={userData}/>} path='/OrderList' />
                 <Route exact element={<NewOrder />} path='/NewOrder' />
             </Routes>
