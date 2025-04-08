@@ -189,8 +189,8 @@ To run the application locally, follow these steps:
 - If the browser does not open automatically, navigate to `http://localhost:3000` to view the application.
 
 To the DataBase you need to have mySql on the computer...
-You can download the Server from the following link: (mySql Server 8.0)[https://dev.mysql.com/downloads/mysql/8.0.html]
-You can download the Workbanch from the following link: (mySql WorkBanch)[https://dev.mysql.com/downloads/workbench/]
+- You can download the Server from the following link: [mySql Server 8.0](https://dev.mysql.com/downloads/mysql/8.0.html)
+- You can download the Workbanch from the following link: [mySql WorkBanch](https://dev.mysql.com/downloads/workbench/)
 
 Then you can run the scripts in the folder database -> Finally you have the DB ready.
 
