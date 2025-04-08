@@ -23,7 +23,7 @@ export default function NewOrder() {
     async function chooseSupplier(e) {
         try{
             setSupplierId(e.target.value);
-            let response = await fetch(`http://localhost:2000/api/catalogs/getAllProducts/user_id/${e.target.value}`); // get the products list for this supplier
+            let response = await fetch(`http://localhost:2000/api/catalogs/getAllProducts/user_id/${e.target.value}`);
             response = await response.json();
             setProductsList(response);
             setQuantity(Array(response.length).fill(0));
@@ -91,7 +91,6 @@ export default function NewOrder() {
     async function toOrder() {
         try {
             const orderData = await buildTheOrder();
-            alert(JSON.stringify(orderData));
             if(!orderData.items.length){
                 alert("Please add at least one product to the order");
                 return;
@@ -106,7 +105,6 @@ export default function NewOrder() {
             });
             response = await response.json();
             console.log(response);
-            alert(JSON.stringify(response));
             Navigate('/OrderList');
         } catch (error) {
             console.log(error);

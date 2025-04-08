@@ -1,3 +1,5 @@
+import query from "./db.js";
+
 async function mapProductNamesToIds(orderData) {
     const mapOrders = [];
   
@@ -118,7 +120,14 @@ async function makeOrders(productPerSupplier) {
     return orders;
 }
 
-export default async function manageTheSOP(orderData) {
+export default async function manageTheSOP(jsonOrderData) {
+
+    // convert the data to an array
+    const orderData = Object.entries(jsonOrderData).map(([product_id, sold_quantity]) => ({
+        product_id,
+        sold_quantity: Number(sold_quantity),
+    }));
+
     // convert the name of product to ids
     const orderDataWithIds = await mapProductNamesToIds(orderData);
   

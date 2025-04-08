@@ -71,13 +71,13 @@
 .myTable th,
 .myTable td {
   padding: 12px;
-  border: 1px solid #d0f0fd; /* קווים בצבע תכלת בהיר */
+  border: 1px solid #d0f0fd;
   text-align: left;
 }
 
 .myTable th {
-  background-color: #f0fbff; /* כותרת בגוון תכלת ממש חלש */
-  color: #045f75;            /* טקסט תכלת כהה */
+  background-color: #f0fbff;
+  color: #045f75;
 }
 
 .newOrder{
